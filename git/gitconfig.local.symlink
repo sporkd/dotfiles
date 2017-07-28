@@ -1,0 +1,9 @@
+[user]
+        name = Peter Gumeson
+        email = gumeson@gmail.com
+[credential]
+        helper = osxkeychain
+[shell]
+        username = peter
+[github]
+        user = sporkd
