@@ -41,7 +41,7 @@ brew 'wget'
 brew 'yarn'
 brew 'youtube-dl'
 # brew 'vim'
-# brew 'zsh'
+brew 'zsh'
 # brew 'zshplug'
 
 # cask 'adium'
@@ -67,6 +67,7 @@ cask 'spotify'
 # cask 'viscosity'
 # cask 'vmware-fusion'
 cask 'vlc'
+cask 'xquartz'
 # cask 'zoomus'
 
 # mas 'Slack', id: 803453959
