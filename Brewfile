@@ -36,6 +36,7 @@ brew 'ruby-build'
 brew 'rbenv'
 # brew 'rbenv-default-gems'
 brew 'roundup'
+# brew 'shellcheck'
 brew 'unrar'
 brew 'wget'
 brew 'yarn'
@@ -70,5 +71,10 @@ cask 'vlc'
 cask 'xquartz'
 # cask 'zoomus'
 
-# mas 'Slack', id: 803453959
+# mas "Affinity Designer", id:
+# mas "Affinity Photo", id:
+# mas "Mactracker", id: 430255202
+# mas "Pixelmator", id: 407963104
+# mas "Sketch", id: 402476602
+# mas "Slack", id: 803453959
 # mas "Xcode", id: 497799835
