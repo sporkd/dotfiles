@@ -24,6 +24,7 @@ brew 'libgit2'
 brew 'mas'
 # brew 'memcached', restart_service: true
 # brew 'mongodb', restart_service: true
+brew 'neovim'
 # brew 'nodenv'
 brew 'openssl'
 # brew 'python3'
@@ -44,7 +45,6 @@ brew 'youtube-dl'
 # brew 'vim'
 brew 'zsh'
 # brew 'zshplug'
-
 # cask 'adium'
 cask 'atom'
 # cask 'cheatsheet'
