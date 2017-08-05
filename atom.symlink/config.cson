@@ -38,11 +38,16 @@
       "vendor"
     ]
     telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "spring-dark-syntax"
+    ]
   editor:
     fontFamily: "Menlo"
     fontSize: 15
     invisibles: {}
     showIndentGuide: true
+    showInvisibles: true
     softWrapAtPreferredLineLength: true
   "go-plus":
     panelDisplayMode: "closed"
