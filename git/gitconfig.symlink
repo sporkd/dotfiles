@@ -1,33 +1,232 @@
-# Local/private config goes in the include
 [include]
-        path = ~/.gitconfig.local
-[hub]
-        protocol = https
+    path = ~/.gitconfig.local
+
+# Credit for what follows:
+# https://github.com/nicksp/dotfiles/blob/master/git/gitconfig
+# https://github.com/MikeMcQuaid/dotfiles/blob/master/gitconfig
 [alias]
-        co = checkout
-        promote = !$ZSH/bin/git-promote
-        wtf     = !$ZSH/bin/git-wtf
-        rank-contributors = !$ZSH/bin/git-rank-contributors
-        count   = !git shortlog -sn
-[color]
-        diff = auto
-        status = auto
-        branch = auto
-        ui = true
+    # Staging
+    a = add
+    aa = add --all
+    assume = update-index --assume-unchanged        # Make git ignore changes for a file
+    unassume = update-index --no-assume-unchanged   # Stop ignoring changes for a file
+    assumed = !git ls-files -v | grep '^[hsmrck?]' | cut -c 3-  # List ignored files
+
+    # Branch
+    br = branch
+    bra = branch --all
+    branch-name = rev-parse --abbrev-ref HEAD
+    tracking-name = !git config --get branch.$(git branch-name).remote || echo origin
+    branch-diff = diff master...HEAD
+
+    # Clone
+    cl = clone
+    sclone = clone --depth=1
+
+    # Checkout
+    co = checkout
+    cob = checkout -b
+
+    # Cherry-pick
+    cp = cherry-pick --signoff
+
+    # Diff
+    d = diff
+    dw = diff --word-diff
+    dc = diff --cached
+
+    # Merge
+    mnoff = merge --no-ff -Xpatience    # No fast forward
+
+    # Pull
+    plom = pull origin master
+    plum = pull upstream master
+    reum = !git fetch upstream && git rebase upstream/master
+
+    # Push
+    pom = push origin master
+
+    # Status
+    st = status
+    ss = status -sb
+
+    # Logging
+    lg = log --graph --pretty=formatshort
+    lgs = log --graph --pretty=formatshort
+    lgm = log --graph --pretty=formatmedium
+    lgl = log --graph --pretty=formatlong
+    stats = log --stat --abbrev-commit
+    authors = shortlog --summary --numbered    # List contributors
+
+    # Reset
+    unstage = reset HEAD --                  # Mixed reset (affects HEAD and Index)
+    uncommit = reset --soft HEAD~1           # Undo last commit (affects HEAD only)
+    hreset = reset --hard HEAD~1             # Remove last commit (from HEAD, Index and Working Dir)
+
+    # Remote
+    remotes = remote -v
+
+    # Submodules
+    subpl = submodule update --init --recursive
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # Find commits by commit message
+
+    msg-search = "!f() { \
+        git log --pretty=formatmedium --decorate --grep=\"$1\"; \
+    }; f"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # Find commits by source code
+
+    code-search = "!f() { \
+        git log --pretty=formatmedium -S\"$1\"; \
+    }; f"
+
 [core]
-        excludesfile = ~/.gitignore
-        editor = nvim
+    editor = nvim
+    abbrev = 12
+    excludesfile = ~/.gitignore
+    attributesfile = ~/.gitattributes
+    mergeoptions = --no-edit
+
+[color]
+    ui = always
+
+[color "branch"]
+    current = green bold
+    local = green
+    remote = yellow
+
+[color "diff"]
+    frag = white reverse
+    meta = dim white
+    new = green
+    old = red
+    whitespace = red reverse
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
+[color "status"]
+    added = green reverse
+    changed = yellow reverse
+    untracked = bold red reverse
+
+[pretty]
+    formatshort = "%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)"
+    formatmedium = "%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n               %C(white)%s%C(reset) %C(dim white)- %an%C(reset)"
+    formatlong = "%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n               %C(white)%s%C(reset)%n               %C(dim white)%an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)"
+
+[format]
+    pretty = %C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)
+      #                    │                            │                      │                          └─ author name
+      #                    │                            │                      └─ message
+      #                    │                            └─ date (relative)
+      #                    │
+      #                    └─ hash (abbreviated)
+
 [apply]
-        whitespace = nowarn
-[mergetool]
-        keepBackup = false
-[difftool]
-        prompt = false
-[help]
-        autocorrect = 1
+    # Cleanup whitespace by default when apply patches.
+    # whitespace = fix
+
+[fetch]
+    # Always prune when fetching (and pulling).
+    prune = 1
+
 [push]
-        # See `git help config` (search for push.default)
-        # for more information on different options of the below setting.
-        #
-        # Setting to git 2.0 default to suppress warning message
-        default = simple
+    # Push to the set upstream branch being tracked by default.
+    default = simple
+
+    # Or push to any branch with the same name
+    # http://stackoverflow.com/a/23918418/89484
+    # followTags = true
+    # default = current
+
+[commit]
+    # Show the diff as a comment in the commit message template.
+    verbose = true
+
+[rebase]
+    # Run `git stash` if needed before a `git rebase`
+    # autoStash = true
+
+    # Auto-add `--autosquash` to `git rebase`
+    # autoSquash = true
+
+[diff]
+    # Use the macOS graphical three-way merge tool for graphical diffs.
+    tool = opendiff
+
+    # Use nvim for diffs
+    # tool = nvimdiff
+
+    # Use the slower but better patience diff algorithm
+    algorithm = patience
+
+    # Use new diff algorithm to make e.g. function diffs look better.
+    compactionheuristic = true
+
+[diff "bin"]
+    # Use `hexdump` to diff binary files
+    textconv = hexdump -v -C
+
+[diff "xml"]
+    textconv = xmllint --format --recover
+
+[difftool "opendiff"]
+    # Set the macOS opendiff command name.
+    path = opendiff
+
+[difftool "nvimdiff"]
+    # use nvim diff wrapper script
+    cmd = git-difftool-nvimdiff "$LOCAL" "$REMOTE"
+
+[pager]
+    # Insanely beautiful diffs ==> npm install -g diff-so-fancy
+    # diff = diff-so-fancy | less --tabs=4 -RFX
+    # show = diff-so-fancy | less --tabs=4 -RFX
+
+[merge]
+    # Use the macOS graphical three-way merge tool for graphical merges.
+    tool = opendiff
+
+    # Use sourcetree free git client
+    # tool = sourcetree
+
+[mergetool]
+    # Don't prompt before opening the merge tool.
+    prompt = false
+
+    # Don't keep backups of the merge tool inputs.
+    keepBackup = false
+
+    # Don't keep the merge tool temporary input/output files.
+    keepTemporaries = false
+
+[mergetool "opendiff"]
+    # Use a script to setup opendiff correctly for Git merges.
+    path = git-mergetool-opendiff
+
+[mergetool "sourcetree"]
+    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true
+
+[help]
+    # Autocorrect mistyped commands.
+    autocorrect = 1
+
+[gist]
+    # Open GitHub Gist in browser after submission.
+    browse = true
+
+[hub]
+    protocol = https
+
+[url "git@github.com:"]
+    # Always use GitHub SSH protocol to push.
+    # Allows use of git:// for public repositories with push access
+    pushInsteadOf = git://github.com/

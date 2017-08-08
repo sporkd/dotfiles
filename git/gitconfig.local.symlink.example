@@ -1,5 +1,16 @@
 [user]
-        name = AUTHORNAME
-        email = AUTHOREMAIL
+  # Name used in commit messages.
+  name = AUTHOR_NAME
+  # Email used in commit messages.
+  email = AUTHOR_EMAIL
+
 [credential]
-        helper = GIT_CREDENTIAL_HELPER
+  helper = GIT_CREDENTIAL_HELPER
+
+[shell]
+  # Default SSH username.
+  username = SSH_USER
+
+[github]
+  # GitHub username for command-line tools.
+  user = GIT_USER
