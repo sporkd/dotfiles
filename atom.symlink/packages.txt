@@ -1,6 +1,10 @@
+busy-signal@1.4.3
+intentions@1.1.5
 language-babel@2.68.0
+language-haml@0.25.1
 language-puppet@0.23.0
 linter@2.2.0
+linter-ui-default@1.6.7
 spring-dark-syntax@0.0.4
 vim-mode-plus@0.96.2
 
