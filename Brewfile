@@ -9,6 +9,7 @@ tap 'caskroom/cask'
 
 brew 'ack'
 brew 'coreutils'
+brew 'easy-tag'
 # brew 'elasticsearch', restart_service: true
 # brew 'elixir
 # brew 'erlang'
