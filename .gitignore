@@ -9,4 +9,6 @@ atom.symlink/themes
 atom.symlink/blob-store
 atom.symlink/recovery
 
+config.symlink/easytag
+
 # git/gitconfig.local.symlink
