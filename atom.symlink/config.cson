@@ -38,9 +38,6 @@
       "background-tips"
       "exception-reporting"
       "metrics"
-      "react"
-      "linter-rubocop"
-      "tree-view"
     ]
     followSymlinks: false
     hideGitIgnoredFiles: true
@@ -59,6 +56,7 @@
     ]
   editor:
     fontFamily: "Menlo"
+    fontSize: 15
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
