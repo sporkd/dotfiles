@@ -27,7 +27,7 @@ brew 'mas'
 # brew 'memcached', restart_service: true
 # brew 'mongodb', restart_service: true
 brew 'neovim'
-# brew 'nodenv'
+brew 'nodenv'
 brew 'openssl'
 # brew 'python3'
 brew 'readline'
