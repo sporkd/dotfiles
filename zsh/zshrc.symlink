@@ -1,3 +1,11 @@
+#!/usr/bin/env zsh
+
+# Load zplug if installed
+if [[ -f ~/.zplug/init.zsh ]]
+then
+  source ~/.zplug/init.zsh
+fi
+
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 

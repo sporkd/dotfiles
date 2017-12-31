@@ -15,4 +15,11 @@ then
   chsh -s /usr/local/bin/zsh
 fi
 
+# Install zplug
+if [ ! -f ~/.zplug.init.zsh ]
+then
+  echo "  Installing zplug"
+  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+fi
+
 exit 0
