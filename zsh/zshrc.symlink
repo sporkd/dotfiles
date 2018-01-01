@@ -1,11 +1,5 @@
 #!/usr/bin/env zsh
 
-# Load zplug if installed
-if [[ -f ~/.zplug/init.zsh ]]
-then
-  source ~/.zplug/init.zsh
-fi
-
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 
@@ -47,6 +41,15 @@ do
 done
 
 unset config_files
+
+# zplug config
+export ZPLUG_LOADFILE=$ZSH/zsh/zplug
+
+# Only source zplug on initial load
+if [[ -f ~/.zplug/init.zsh ]]
+then
+  source ~/.zplug/init.zsh
+fi
 
 # Better history
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys

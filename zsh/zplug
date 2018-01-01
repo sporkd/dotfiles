@@ -1,6 +1,3 @@
-# Return if zplug is not loaded
-[[ -v ZPLUG_HOME ]] || return
-
 # Manage zplug as a plugin when you zplug update
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
