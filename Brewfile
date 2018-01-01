@@ -6,6 +6,8 @@ tap 'homebrew/services'
 tap 'github/bootstrap'
 # tap 'puma/puma'
 tap 'caskroom/cask'
+tap 'caskroom/fonts'
+tap 'sporkd/fonts', 'git@github.com:sporkd/homebrew-fonts.git'
 
 brew 'ack'
 brew 'coreutils'
@@ -46,7 +48,7 @@ brew 'yarn'
 brew 'youtube-dl'
 # brew 'vim'
 brew 'zsh'
-# brew 'zshplug'
+# brew 'zplug'  # manual install for now
 # cask 'adium'
 cask 'atom'
 # cask 'cheatsheet'
@@ -72,6 +74,12 @@ cask 'spotify'
 cask 'vlc'
 cask 'xquartz'
 # cask 'zoomus'
+
+# Fonts
+cask 'font-fira-code'
+cask 'font-fira-mono-for-powerline'
+cask 'font-menlo-for-powerline'
+cask 'font-monaco-for-powerline'
 
 # mas "Affinity Designer", id:
 # mas "Affinity Photo", id:
