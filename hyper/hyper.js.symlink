@@ -114,7 +114,17 @@ module.exports = {
 
     hyperStatusLine: {
       footerTransparent: true,
-    }
+    },
+
+    hyperTabs: {
+      trafficButtons: true,
+      tabIcons: true,
+      tabIconsColored: true,
+    },
+
+    // hyperTransparentDynamic: {
+    //   alpha: 0.9
+    // },
   },
 
   // a list of plugins to fetch and install from npm
@@ -132,6 +142,7 @@ module.exports = {
     'hyper-ligatures',
     'hyper-statusline',
     'hyper-tabs-enhanced',
+    'hyperterm-cursor',
 
     // THEMES
     'hyperblue',
@@ -143,6 +154,9 @@ module.exports = {
     // 'hyper-snazzy',
     // 'hyper-space',
     // 'hyper-solarized-dark-highcontrast',
+    //
+    // Must come last
+    // 'hyper-transparent-dynamic'
   ],
 
   // in development, you can create a directory under
