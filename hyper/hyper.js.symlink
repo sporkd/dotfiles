@@ -15,7 +15,7 @@ module.exports = {
     fontFamily: '"Monaco for Powerline", "Menlo for Powerline", "Fira Code", Monaco, Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
 
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
-    cursorColor: 'rgba(248,28,229,0.8)',
+    cursorColor: 'rgba(255,255,255,0.7)',
 
     // `BEAM` for |, `UNDERLINE` for _, `BLOCK` for █
     cursorShape: 'BLOCK',
@@ -27,13 +27,16 @@ module.exports = {
     foregroundColor: '#fff',
 
     // terminal background color
-    backgroundColor: '#000',
+    // backgroundColor: '#000',
+    backgroundColor: '#16161B',
 
     // border color (window, tabs)
     borderColor: '#333',
+    // borderColor: '#293845',
 
     // custom css to embed in the main window
-    css: '',
+    css: `
+    `,
 
     // custom css to embed in the terminal window
     termCSS: '',
@@ -53,23 +56,43 @@ module.exports = {
     // the full list. if you're going to provide the full color palette,
     // including the 6 x 6 color cubes and the grayscale map, just provide
     // an array here instead of a color map object
+    // colors: {
+    //   black: '#000000',
+    //   red: '#ff0000',
+    //   green: '#33ff00',
+    //   yellow: '#ffff00',
+    //   blue: '#0066ff',
+    //   magenta: '#cc00ff',
+    //   cyan: '#00ffff',
+    //   white: '#d0d0d0',
+    //   lightBlack: '#808080',
+    //   lightRed: '#ff0000',
+    //   lightGreen: '#33ff00',
+    //   lightYellow: '#ffff00',
+    //   lightBlue: '#0066ff',
+    //   lightMagenta: '#cc00ff',
+    //   lightCyan: '#00ffff',
+    //   lightWhite: '#ffffff'
+    // },
+
     colors: {
-      black: '#000000',
-      red: '#ff0000',
-      green: '#33ff00',
-      yellow: '#ffff00',
-      blue: '#0066ff',
-      magenta: '#cc00ff',
-      cyan: '#00ffff',
-      white: '#d0d0d0',
-      lightBlack: '#808080',
-      lightRed: '#ff0000',
-      lightGreen: '#33ff00',
-      lightYellow: '#ffff00',
-      lightBlue: '#0066ff',
-      lightMagenta: '#cc00ff',
-      lightCyan: '#00ffff',
-      lightWhite: '#ffffff'
+      black: '#16161b',
+      red: '#ff4262',      // git status, cms completion
+      green: '#26c99e',    // git status, cmd completeion
+      yellow: '#ffe770',   // git status
+      blue: '#4496cd',
+      magenta: '#ec26cd',
+      cyan: '#13c7fe',     // softlinks
+      white: '#dfdfdf',    // git log text
+
+      lightBlack: '#686868',
+      lightRed: '#ff4262',      // git status prompt
+      lightGreen: '#26c99e',
+      lightYellow: '#ffe770',
+      lightBlue: '#009ce6',     // directories
+      lightMagenta: '#ec26cd',  // git merge prompt
+      lightCyan: '#13c7fe',     // cwd prompt
+      lightWhite: '#000fff'
     },
 
     // the shell to run when spawning a new session (i.e. /usr/local/bin/fish)
@@ -145,15 +168,8 @@ module.exports = {
     'hyperterm-cursor',
 
     // THEMES
-    'hyperblue',
+    // 'hyperblue',
     // 'hyperblue-vibrancy',
-    // 'hyperterm-monokai',
-    // 'hyper-chesterish',
-    // 'hyper-electron-highlighter',
-    // 'hyper-ramda',
-    // 'hyper-snazzy',
-    // 'hyper-space',
-    // 'hyper-solarized-dark-highcontrast',
     //
     // Must come last
     // 'hyper-transparent-dynamic'
