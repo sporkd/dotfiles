@@ -16,9 +16,9 @@ then
 fi
 
 # Install zplug
-if [ ! -f ~/.zplug.init.zsh ]
+if [ ! -f ~/.zplug/init.zsh ]
 then
-  echo "  Installing zplug"
+  echo "Installing zplug"
   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 fi
 
