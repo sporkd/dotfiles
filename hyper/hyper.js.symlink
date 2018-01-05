@@ -77,9 +77,9 @@ module.exports = {
 
     colors: {
       black: '#16161b',
-      red: '#c31e49',      // git status, cms completion
-      green: '#26c99e',    // git status, cmd completeion
-      yellow: '#ffe770',   // git status
+      red: '#c31e49',      // git untracked, cmd completion
+      green: '#27cd92',    // git staged, cmd completeion
+      yellow: '#ffe770',   // git modified
       blue: '#4496cd',
       magenta: '#ec26cd',
       cyan: '#13c7fe',     // softlinks
@@ -87,11 +87,11 @@ module.exports = {
 
       lightBlack: '#686868',
       lightRed: '#e43764',      // git status prompt
-      lightGreen: '#26c99e',
+      lightGreen: '#27cd92',    // git log date
       lightYellow: '#ffe770',
-      lightBlue: '#009ce6',     // directories
+      lightBlue: '#009ce6',     // directories, git log sha
       lightMagenta: '#ec26cd',  // git merge prompt
-      lightCyan: '#13c7fe',     // cwd prompt
+      lightCyan: '#13c7fe',     // cwd prompt, git log sha
       lightWhite: '#000fff'
     },
 
