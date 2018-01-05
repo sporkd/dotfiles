@@ -1,0 +1,7 @@
+{
+  "name": "sporkd-dotfiles",
+  "version": "0.0.1",
+  "dependencies": {
+    "themer": "^2.2.3"
+  }
+}
