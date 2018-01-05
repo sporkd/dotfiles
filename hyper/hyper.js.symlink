@@ -77,7 +77,7 @@ module.exports = {
 
     colors: {
       black: '#16161b',
-      red: '#ff4262',      // git status, cms completion
+      red: '#c31e49',      // git status, cms completion
       green: '#26c99e',    // git status, cmd completeion
       yellow: '#ffe770',   // git status
       blue: '#4496cd',
@@ -86,7 +86,7 @@ module.exports = {
       white: '#dfdfdf',    // git log text
 
       lightBlack: '#686868',
-      lightRed: '#ff4262',      // git status prompt
+      lightRed: '#e43764',      // git status prompt
       lightGreen: '#26c99e',
       lightYellow: '#ffe770',
       lightBlue: '#009ce6',     // directories
