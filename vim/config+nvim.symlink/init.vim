@@ -18,7 +18,10 @@ endfunction
 " Python 3 is needed for some plugins to work
 let g:python3_host_prog = '/usr/local/bin/python3'
 
-set termguicolors
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 " I like block cursor always blinking
 " set guicursor=a:block-blinkwait100-blinkoff150-blinkon175
 
@@ -170,7 +173,7 @@ let g:airline_powerline_fonts = 1
 let g:airline_enable_branch = 1
 let g:airline_branch_prefix = '⎇ '
 let g:airline_skip_empty_sections = 1
-let g:airline_theme='pencil'
+let g:airline_theme='tender'
 let g:airline#extensions#ale#enabled = 1
 
 " -------------------------------------------------------------------------------------------
@@ -195,9 +198,23 @@ call ConfigInc('keybindings.vim')
 " THEMES / COLORS / UI
 "----------------------------------------------------------------------------------------------
 
-" If colorscheme = pencil
-colorscheme pencil
-:set background=dark
+if !exists("g:syntax_on")
+  syntax enable
+endif
+
+" https://github.com/jacoborus/tender.vim
+colorscheme tender
+
+" https://github.com/rakr/vim-one
+" colorscheme one
+" set background=dark
+" let g:one_allow_italics = 1
+" Customize
+" one#highlight(group, fg, bg, attribute)
+
+" https://github.com/reedes/vim-colors-pencil
+" colorscheme pencil
+" set background=dark
 " let g:pencil_neutral_headings = 1
 " let g:pencil_higher_contrast_ui = 1
 " let g:pencil_neutral_code_bg = 1

@@ -138,7 +138,9 @@ Plug 'w0rp/ale'
 " -------------------------------------------------------------------------------------------
 
 " Status line
-Plug 'reedes/vim-colors-pencil'     " Pencil theme
-Plug 'vim-airline/vim-airline'      " Airline plugin
+Plug 'jacoborus/tender.vim'       " Tender theme
+Plug 'rakr/vim-one'               " Vim One theme
+Plug 'reedes/vim-colors-pencil'   " Pencil theme
+Plug 'vim-airline/vim-airline'    " Airline plugin
 
 call plug#end()
