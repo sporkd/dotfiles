@@ -82,7 +82,7 @@ module.exports = {
       yellow: '#ffe770',   // git modified
       blue: '#4496cd',
       magenta: '#ec26cd',
-      cyan: '#13c7fe',     // softlinks
+      cyan: '#73cef4',     // softlinks
       white: '#dfdfdf',    // git log text
 
       lightBlack: '#686868',
