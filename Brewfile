@@ -26,6 +26,10 @@ brew 'jq'
 brew 'libcaca', args: ['with-imlib2']
 brew 'libgit2'
 brew 'mas'
+
+# https://apple.stackexchange.com/questions/311442/broken-terminal
+# brew 'mercurial'
+
 # brew 'memcached', restart_service: true
 # brew 'mongodb', restart_service: true
 brew 'neovim'
