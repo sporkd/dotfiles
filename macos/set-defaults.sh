@@ -114,6 +114,9 @@ defaults write com.apple.dock mru-spaces -bool false
 # Mac App Store                                                               #
 ###############################################################################
 
+# Don’t automatically check for software updates
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool false
+
 # Don’t automatically download and notify of updates
 sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool false
 
