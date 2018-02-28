@@ -1,3 +1,5 @@
+angular-2-typeScript-snippets@0.7.0
+atom-typescript@12.2.0
 busy-signal@1.4.3
 intentions@1.1.5
 language-babel@2.68.0
