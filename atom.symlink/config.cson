@@ -39,6 +39,7 @@
       "exception-reporting"
       "metrics"
       "tree-view"
+      "linter"
     ]
     followSymlinks: false
     hideGitIgnoredFiles: true
