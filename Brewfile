@@ -7,12 +7,13 @@ tap 'github/bootstrap'
 # tap 'puma/puma'
 tap 'caskroom/cask'
 tap 'caskroom/fonts'
+tap 'caskroom/versions'
 tap 'sporkd/fonts', 'git@github.com:sporkd/homebrew-fonts.git'
 
 brew 'ack'
 brew 'coreutils'
 brew 'easy-tag'
-# brew 'elasticsearch', restart_service: true
+brew 'elasticsearch', restart_service: true
 # brew 'elixir
 # brew 'erlang'
 brew 'git'
@@ -30,7 +31,7 @@ brew 'mas'
 # https://apple.stackexchange.com/questions/311442/broken-terminal
 # brew 'mercurial'
 
-# brew 'memcached', restart_service: true
+brew 'memcached', restart_service: true
 # brew 'mongodb', restart_service: true
 brew 'neovim'
 brew 'node'
@@ -38,9 +39,9 @@ brew 'nodenv'
 brew 'openssl'
 brew 'python3'
 brew 'readline'
-# brew 'postgresql', restart_service: true
+brew 'postgresql', restart_service: true
 # brew 'puma/puma/puma-dev'
-# brew 'redis', restart_service: true
+brew 'redis', restart_service: true
 # brew 'ripgrep'
 brew 'rbenv'
 brew 'rbenv-default-gems'
@@ -68,6 +69,7 @@ cask 'handbrake'
 cask 'hyper'
 cask 'iterm2'
 cask 'java'
+cask 'java8'
 cask 'kdiff3'
 # cask 'mapbox-studio'
 cask 'now'
