@@ -19,6 +19,17 @@ then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install)"
   fi
 
+else
+  # Any brew post install dependencies
+
+  # Add postgres user
+  if brew ls --versions postgresql > /dev/null; then
+    roles="$(psql postgres -t -c '\du')"
+    if ! grep -q " postgres " <<< "$roles" ; then
+      psql postgres -c "CREATE ROLE postgres WITH PASSWORD 'postgres' CREATEDB REPLICATION;"
+    fi
+  fi
+
 fi
 
 exit 0
