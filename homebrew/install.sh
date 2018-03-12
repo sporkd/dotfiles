@@ -26,7 +26,7 @@ else
   if brew ls --versions postgresql > /dev/null; then
     roles="$(psql postgres -t -c '\du')"
     if ! grep -q " postgres " <<< "$roles" ; then
-      psql postgres -c "CREATE ROLE postgres WITH PASSWORD 'postgres' CREATEDB REPLICATION;"
+      psql postgres -c "CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres' SUPERUSER;"
     fi
   fi
 
