@@ -60,6 +60,7 @@ brew 'zsh'
 cask 'atom'
 # cask 'cheatsheet'
 cask 'db-browser-for-sqlite'
+# cask 'docker'
 cask 'figma'
 cask 'firefox'
 # cask 'fork'
@@ -92,8 +93,12 @@ cask 'xquartz'
 # Fonts
 cask 'font-fira-code'
 cask 'font-fira-mono-for-powerline'
+cask 'font-lato'
 cask 'font-menlo-for-powerline'
 cask 'font-monaco-for-powerline'
+cask 'font-montserrat'
+cask 'font-oswald'
+cask 'font-roboto'
 
 # mas "Affinity Designer", id:
 # mas "Affinity Photo", id:
