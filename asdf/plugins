@@ -1,0 +1,6 @@
+# Installs defined asdf plugins
+# <plugin name> <repo (optional)>
+erlang
+elixir
+nodejs
+ruby

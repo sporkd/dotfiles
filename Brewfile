@@ -11,13 +11,13 @@ tap 'caskroom/versions'
 tap 'sporkd/fonts', 'git@github.com:sporkd/homebrew-fonts.git'
 
 brew 'ack'
+brew 'asdf'
 brew 'coreutils'
 brew 'easy-tag'
 brew 'elasticsearch', restart_service: true
-# brew 'elixir
-# brew 'erlang'
 brew 'git'
 brew 'go'
+brew 'gnupg'
 brew 'grc'
 # brew 'httrack'
 brew 'hub'
@@ -26,6 +26,7 @@ brew 'jp2a'
 brew 'jq'
 brew 'libcaca', args: ['with-imlib2']
 brew 'libgit2'
+brew 'libxslt'
 brew 'mas'
 
 # https://apple.stackexchange.com/questions/311442/broken-terminal
@@ -34,8 +35,6 @@ brew 'mas'
 brew 'memcached', restart_service: true
 # brew 'mongodb', restart_service: true
 brew 'neovim'
-brew 'node'
-brew 'nodenv'
 brew 'openssl'
 brew 'python3'
 brew 'readline'
@@ -43,8 +42,6 @@ brew 'postgresql', restart_service: true
 # brew 'puma/puma/puma-dev'
 brew 'redis', restart_service: true
 # brew 'ripgrep'
-brew 'rbenv'
-brew 'rbenv-default-gems'
 brew 'roundup'
 # brew 'shellcheck'
 brew 'unrar'

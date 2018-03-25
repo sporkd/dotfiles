@@ -51,6 +51,9 @@ then
   source ~/.zplug/init.zsh
 fi
 
+# Init asdf
+source /usr/local/opt/asdf/asdf.sh
+
 # Better history
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
 autoload -U up-line-or-beginning-search
