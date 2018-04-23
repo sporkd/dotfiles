@@ -53,6 +53,7 @@ fi
 
 # Init asdf
 source /usr/local/opt/asdf/asdf.sh
+# source /usr/local/opt/asdf/etc/bash_completion.d
 
 # Better history
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys

@@ -141,6 +141,10 @@ install_dotfiles () {
 
   for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
   do
+    # TODO: look at replacing nested symlinks with
+    # https://github.com/holman/dotfiles/issues/101#issuecomment-50263838
+    # relative_src=$(echo $src | sed -e "s=$DOTFILES_ROOT==" -e "s=.symlink==")
+    # dst="$HOME/.$(echo $relative_src | cut -d "/" -f3-)"
     dst=$(basename "${src%.*}")
     dst="$HOME/.${dst//+//}"
     link_file "$src" "$dst"
