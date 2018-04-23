@@ -3,6 +3,7 @@ atom-typescript@12.2.0
 busy-signal@1.4.3
 intentions@1.1.5
 language-babel@2.68.0
+language-elixir@0.22.0
 language-haml@0.25.1
 language-puppet@0.23.0
 linter@2.2.0
