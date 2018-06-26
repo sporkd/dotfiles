@@ -40,6 +40,7 @@
       "metrics"
       "tree-view"
       "linter"
+      "image-view"
     ]
     followSymlinks: false
     hideGitIgnoredFiles: true

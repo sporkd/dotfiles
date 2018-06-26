@@ -33,7 +33,7 @@ brew 'mas'
 # brew 'mercurial'
 
 brew 'memcached', restart_service: true
-# brew 'mongodb', restart_service: true
+brew 'mongodb', restart_service: true
 brew 'neovim'
 brew 'openssl'
 brew 'python3'
@@ -74,6 +74,7 @@ cask 'kdiff3'
 cask 'now'
 cask 'postman'
 cask 'quitter'
+cask 'robo-3t'
 cask 'slack'
 # cask 'sourcetree'
 cask 'spotify'
