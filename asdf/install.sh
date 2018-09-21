@@ -8,6 +8,9 @@ NC='\033[0m'
 
 # Check for asdf
 if brew ls --versions asdf > /dev/null; then
+  echo "Installing asdf tool versions..."
+  asdf install
+
   echo "Updating asdf plugins..."
   asdf plugin-update --all
 
