@@ -52,6 +52,9 @@ alias la="lsd -la"
 alias ll="lsd -1"
 alias ls="lsd -1"
 
+# ranger
+alias ranger="VISUAL=$EDITOR ranger"
+
 # general
 alias files='xplr'
 alias icat='kitty +kitten icat'
