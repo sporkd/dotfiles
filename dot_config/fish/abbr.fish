@@ -1,0 +1,33 @@
+#! /usr/bin/env fish
+
+abbr --add ls lsd
+abbr --add ll lsd -1
+
+# abbr --add jq 'jq -C "."'
+abbr --add jp 'jp "@"'
+
+abbr --add vi nvim
+abbr --add vim nvim
+abbr --add :e nvim
+
+abbr --add :q exit
+
+abbr --add uuid "uuidgen | tr -d '\\n' | tr '[:upper:]' '[:lower:]' | pbcopy; pbpaste; echo"
+
+abbr --add yt "youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'"
+
+# abbr --add tree 'exa --tree'
+# abbr --add tree 'lsd --tree'
+abbr --add tree 'et'
+
+abbr --add .. 'cd ..'
+
+# kitty / pi
+abbr --add icat 'kitty +kitten icat'
+# abbr --add pi 'kitty +kitten ssh pi@pi.local'
+
+abbr --add passgen 'dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 | rev | cut -b 2- | rev'
+
+# other
+abbr --add weather 'curl wttr.in'
+abbr --add files '/Users/peter/.cargo/bin/xplr'

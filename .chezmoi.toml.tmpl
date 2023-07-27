@@ -1,0 +1,46 @@
+{{- /* Checks if running interactively, which is not the case for GitHub Codespaces */ -}}
+{{- $interactive := stdinIsATTY -}}
+
+{{- /* Initializes the full_name variable with a default value */ -}}
+{{- $full_name := "Peter Gumeson" -}}
+{{- /* If full_name was previously set, reuses it */ -}}
+{{- if hasKey . "full_name" -}}
+{{-   $full_name = .full_name -}}
+{{- /* Otherwise, if running interactively, prompts for a full_name */ -}}
+{{- else if $interactive -}}
+{{-   $full_name = promptString "Full Name" $full_name -}}
+{{- end -}}
+
+{{- /* Does the same for the email */ -}}
+{{- $email := "gumeson@gmail.com" -}}
+{{- if hasKey . "email" -}}
+{{-   $email = .email -}}
+{{- else if $interactive -}}
+{{-   $email = promptString "Email" $email -}}
+{{- end -}}
+
+{{- /* Does the same for the git_email */ -}}
+{{- $git_email := $email -}}
+{{- if hasKey . "git_email" -}}
+{{-   $git_email = .git_email -}}
+{{- else if $interactive -}}
+{{-   $git_email = promptString "Git Email" $git_email -}}
+{{- end -}}
+
+{{- /* github_user */ -}}
+{{- $github_user := "sporkd" -}}
+{{- if hasKey . "github_user" -}}
+{{-   $github_user = .github_user -}}
+{{- else if $interactive -}}
+{{-   $github_user = promptString "GitHub Username" $github_user -}}
+{{- end -}}
+
+{{- if $interactive -}}
+{{-   writeToStdout "💡 Tip: you can re-enter your full_name and email with `chezmoi init --data=false`.\n" -}}
+{{- end -}}
+
+[data]
+  full_name = "{{ $full_name }}"
+  email = "{{ $email }}"
+  git_email = "{{ $git_email }}"
+  github_user = "{{ $github_user }}"
