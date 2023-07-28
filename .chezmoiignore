@@ -1,2 +1,6 @@
 install.sh
 .DS_Store
+
+{{ if ne .chezmoi.os "darwin" }}
+Library/Application Support/Code/User/settings.json
+{{ end }}
