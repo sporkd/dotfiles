@@ -1,24 +1,36 @@
-#! /usr/bin/env bash
+#! /usr/bin/env zsh
 
-{{ if eq .chezmoi.os "linux" -}}
+{{ if eq .chezmoi.os "linux" }}
 
-# starship
-apk add --no-cache starship
-# zoxide
-curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+  # Starship
+  apk add --no-cache starship
 
-{{ else if eq .chezmoi.os "darwin" -}}
+  # Zoxide
+  curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
-# tea
-if ! command -v tea &> /dev/null; then
-  echo "Installing tea..."
-  sh <(curl https://tea.xyz)
-fi
+{{ else if eq .chezmoi.os "darwin" }}
 
-# homebrew
-if ! command -v brew &> /dev/null; then
-  echo "Installing homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+  # Homebrew
+  ## Brewfile: {{ include "Brewfile.tmpl" | sha256sum }}
 
-{{ end -}}
+  {{ $homebrew_prefix := "/opt/homebrew" -}}
+  {{- if eq .chezmoi.arch "x86_64" -}}
+  {{-   $homebrew_prefix = "/usr/local" -}}
+  {{- end -}}
+
+  if [ ! -x "{{ $homebrew_prefix }}/bin/brew" ]; then
+    echo "Installing homebrew..."
+    # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  else
+    echo "Found homebrew"
+  fi
+
+  # Tea
+  if [ ! -x "$HOME/.tea/tea.xyz/v*/bin/tea" ]; then
+    echo "Installing tea..."
+    sh <(curl https://tea.xyz) # --yes
+  else
+    echo "Found tea"
+  fi
+
+{{ end }}
