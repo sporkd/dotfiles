@@ -27,8 +27,11 @@
 
   # Tea
   if ! command -v tea &> /dev/null; then
-    echo "Adding tea to path..."
-    test -d "$HOME/.tea" && source <("$HOME/.tea/tea.xyz/v*/bin/tea" --magic=zsh --silent)
+    if [ -d "$HOME/.tea" ]; then
+      echo "Adding tea to path..."
+      export PATH="$HOME/.tea/tea.xyz/v*/bin:$PATH"
+      # source <("$HOME/.tea/tea.xyz/v*/bin/tea" --magic=zsh --silent)
+    fi
   fi
 
 {{ end }}

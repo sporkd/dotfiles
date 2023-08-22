@@ -1,9 +1,21 @@
-export PATH="$HOME/.local/bin:$PATH"
-
 export SHELL="/bin/zsh"
-export EDITOR="nvim"
+export EDITOR="vim"
 export VISUAL="zed --wait"
 export GIT_EDITOR="nvim"
+
+export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.gem/bin:$PATH"
+# export PATH="$HOME/.node_modules/bin:$PATH"
+
+# export PATH="/opt/homebrew/lib/ruby/gems/3.2.0/bin:$PATH"
+# export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+export GEM_HOME="$HOME/.gem"
+# export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+
+# export NPM_CONFIG_PREFIX="$HOME/.node_modules"
 
 {{ if eq .chezmoi.os "darwin" }}
 
@@ -31,8 +43,8 @@ export GIT_EDITOR="nvim"
 {{ end }}
 
 # tea
-if [ -x "$HOME/.tea/tea.xyz/v*/bin/tea" ]; then
-  export PATH="$HOME/.tea/tea.xyz/v*/bin:$PATH"
+if [ -d "$HOME/.tea" ]; then
+  # export PATH="$HOME/.tea/tea.xyz/v*/bin:$PATH"
   # source <(tea --magic=zsh --silent)
 fi
 

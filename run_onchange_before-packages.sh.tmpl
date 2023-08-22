@@ -20,13 +20,13 @@
 
   if [ ! -x "{{ $homebrew_prefix }}/bin/brew" ]; then
     echo "Installing homebrew..."
-    # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   else
     echo "Found homebrew"
   fi
 
   # Tea
-  if [ ! -x "$HOME/.tea/tea.xyz/v*/bin/tea" ]; then
+  if [ ! -d "$HOME/.tea" ]; then
     echo "Installing tea..."
     sh <(curl https://tea.xyz) # --yes
   else
