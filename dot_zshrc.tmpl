@@ -3,20 +3,6 @@ export EDITOR="vim"
 export VISUAL="zed --wait"
 export GIT_EDITOR="nvim"
 
-export PATH="/usr/local/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.gem/bin:$PATH"
-# export PATH="$HOME/.node_modules/bin:$PATH"
-
-# export PATH="/opt/homebrew/lib/ruby/gems/3.2.0/bin:$PATH"
-# export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
-
-export GEM_HOME="$HOME/.gem"
-# export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
-# export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
-
-# export NPM_CONFIG_PREFIX="$HOME/.node_modules"
-
 {{ if eq .chezmoi.os "darwin" }}
 
   # homebrew
@@ -27,6 +13,10 @@ export GEM_HOME="$HOME/.gem"
   if [ -x "{{ $homebrew_prefix }}/bin/brew" ]; then
     eval "$({{ $homebrew_prefix }}/bin/brew shellenv)"
   fi
+
+  # if [ -x "{{ $homebrew_prefix }}/bin/share/android-ndk" ]; then
+  #   export ANDROID_NDK_HOME="{{ $homebrew_prefix }}/share/android-ndk"
+  # fi
 
   # fish(y)
   source {{ $homebrew_prefix }}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -42,11 +32,31 @@ export GEM_HOME="$HOME/.gem"
 
 {{ end }}
 
-# tea
-if [ -d "$HOME/.tea" ]; then
-  # export PATH="$HOME/.tea/tea.xyz/v*/bin:$PATH"
+# tea magic
+# if [ -d "$HOME/.tea" ]; then
+if ! command -v tea &> /dev/null; then
+  echo "found tea command"
   # source <(tea --magic=zsh --silent)
 fi
+
+# ruby
+export GEM_HOME="$HOME/.gem"
+export PATH="$HOME/.gem/bin:$PATH"
+# export PATH="/opt/homebrew/lib/ruby/gems/3.2.0/bin:$PATH"
+# export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+# export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+
+# node
+# export NPM_CONFIG_PREFIX="$HOME/.node_modules"
+# export PATH="$HOME/.node_modules/bin:$PATH"
+
+# java
+export JAVA_HOME="$HOME/bin"
+
+export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # fzf
 source $HOME/.config/fzf/key-bindings.zsh
