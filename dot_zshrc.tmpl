@@ -1,3 +1,5 @@
+{{- $homebrew_prefix := "" -}}
+
 export SHELL="/bin/zsh"
 export EDITOR="vim"
 export VISUAL="zed --wait"
@@ -6,17 +8,15 @@ export GIT_EDITOR="nvim"
 {{ if eq .chezmoi.os "darwin" }}
 
   # homebrew
-  {{- $homebrew_prefix := "/opt/homebrew" -}}
   {{- if eq .chezmoi.arch "x86_64" -}}
   {{-   $homebrew_prefix = "/usr/local" -}}
+  {{- else -}}
+  {{-   $homebrew_prefix = "/opt/homebrew" -}}
   {{- end }}
+
   if [ -x "{{ $homebrew_prefix }}/bin/brew" ]; then
     eval "$({{ $homebrew_prefix }}/bin/brew shellenv)"
   fi
-
-  # if [ -x "{{ $homebrew_prefix }}/bin/share/android-ndk" ]; then
-  #   export ANDROID_NDK_HOME="{{ $homebrew_prefix }}/share/android-ndk"
-  # fi
 
   # fish(y)
   source {{ $homebrew_prefix }}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -35,8 +35,18 @@ export GIT_EDITOR="nvim"
 # tea magic
 # if [ -d "$HOME/.tea" ]; then
 if ! command -v tea &> /dev/null; then
-  echo "found tea command"
   # source <(tea --magic=zsh --silent)
+fi
+
+# java
+export JAVA_HOME="$HOME/.local"
+
+# android
+if [ -x "{{ $homebrew_prefix }}/share/android-ndk" ]; then
+  export ANDROID_NDK_HOME="{{ $homebrew_prefix }}/share/android-ndk"
+fi
+if [ -d "$HOME/Library/Android/sdk/cmdline-tools/latest/bin" ]; then
+  export PATH="$HOME/Library/Android/sdk/cmdline-tools/latest/bin:$PATH"
 fi
 
 # ruby
@@ -50,9 +60,6 @@ export PATH="$HOME/.gem/bin:$PATH"
 # node
 # export NPM_CONFIG_PREFIX="$HOME/.node_modules"
 # export PATH="$HOME/.node_modules/bin:$PATH"
-
-# java
-export JAVA_HOME="$HOME/bin"
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"

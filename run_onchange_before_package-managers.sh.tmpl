@@ -1,5 +1,7 @@
 #! /usr/bin/env zsh
 
+{{ $homebrew_prefix := "" -}}
+
 {{ if eq .chezmoi.os "linux" }}
 
   # Starship
@@ -11,12 +13,11 @@
 {{ else if eq .chezmoi.os "darwin" }}
 
   # Homebrew
-  ## Brewfile: {{ include "Brewfile.tmpl" | sha256sum }}
-
-  {{ $homebrew_prefix := "/opt/homebrew" -}}
   {{- if eq .chezmoi.arch "x86_64" -}}
   {{-   $homebrew_prefix = "/usr/local" -}}
-  {{- end -}}
+  {{- else -}}
+  {{-   $homebrew_prefix = "/opt/homebrew" -}}
+  {{- end }}
 
   if [ ! -x "{{ $homebrew_prefix }}/bin/brew" ]; then
     echo "Installing homebrew..."

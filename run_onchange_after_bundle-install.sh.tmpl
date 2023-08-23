@@ -1,0 +1,32 @@
+#! /usr/bin/env zsh
+
+## Gemfile: {{ include "Gemfile.tmpl" | sha256sum }}
+## Brewfile: {{ include "Brewfile.tmpl" | sha256sum }}
+{{- $homebrew_prefix := "" -}}
+
+# install latest bundler
+if [ ! -x "$HOME/.gem/bin/bundle" ]; then
+  $HOME/.local/bin/gem install bundler --user-install
+fi
+
+{{ if eq .chezmoi.os "linux" }}
+
+{{ else if eq .chezmoi.os "darwin" }}
+
+  # Bundler
+  $HOME/.gem/bin/bundle install --gemfile="$HOME/Gemfile"
+
+  # Homebrew
+  {{- if eq .chezmoi.arch "x86_64" -}}
+  {{-   $homebrew_prefix = "/usr/local" -}}
+  {{- else -}}
+  {{-   $homebrew_prefix = "/opt/homebrew" -}}
+  {{- end }}
+
+  if ! command -v brew &> /dev/null; then
+    eval "$({{ $homebrew_prefix }}/bin/brew shellenv)"
+  fi
+
+  brew bundle --file="$HOME/Brewfile"
+
+{{ end }}
