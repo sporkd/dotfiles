@@ -52,14 +52,10 @@ fi
 # ruby
 export GEM_HOME="$HOME/.gem"
 export PATH="$HOME/.gem/bin:$PATH"
-# export PATH="/opt/homebrew/lib/ruby/gems/3.2.0/bin:$PATH"
-# export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
-# export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
-# export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
 
 # node
-# export NPM_CONFIG_PREFIX="$HOME/.node_modules"
-# export PATH="$HOME/.node_modules/bin:$PATH"
+export NPM_CONFIG_PREFIX="$HOME/.node_modules"
+export PATH="$HOME/.node_modules/bin:$PATH"
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -81,8 +77,6 @@ export MANPAGER="nvim +Man!"
 # neovim
 alias vi=nvim
 alias vim=nvim
-alias :e=nvim
-alias :q=exit
 alias tree='et'
 
 # ls
@@ -94,9 +88,9 @@ alias ls="lsd -1"
 alias ranger="VISUAL=$EDITOR ranger"
 
 # general
-alias files='xplr'
+alias files='tea xplr'
 alias icat='kitty +kitten icat'
-alias recent='exa --header -la --sort oldest | head -n 25'
+alias recent='tea exa --header -la --sort oldest | head -n 25'
 alias uuid="uuidgen | tr -d '\\n' | tr '[:upper:]' '[:lower:]' | pbcopy; pbpaste; echo"
 alias weather='curl wttr.in'
 
