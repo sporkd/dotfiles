@@ -4,19 +4,11 @@
 ## Brewfile: {{ include "Brewfile.tmpl" | sha256sum }}
 {{- $homebrew_prefix := "" -}}
 
-# install latest bundler
-if [ ! -x "$HOME/.gem/bin/bundle" ]; then
-  $HOME/.local/bin/gem install bundler --user-install
-fi
-
 {{ if eq .chezmoi.os "linux" }}
 
 {{ else if eq .chezmoi.os "darwin" }}
 
-  # Bundler
-  $HOME/.gem/bin/bundle install --gemfile="$HOME/Gemfile"
-
-  # Homebrew
+  # Homebrew packages
   {{- if eq .chezmoi.arch "x86_64" -}}
   {{-   $homebrew_prefix = "/usr/local" -}}
   {{- else -}}
@@ -28,5 +20,20 @@ fi
   fi
 
   brew bundle --file="$HOME/Brewfile"
+
+  # Tea packages
+  if command -v tea &> /dev/null; then
+    source <(tea --shellcode)
+  fi
+
+  if [ ! -x "$HOME/.local/bin/fzf" ]; then
+    tea +fzf
+    tea install
+  fi
+
+  # Bundler
+  if [ -x "$HOME/.local/bin/bundle" ]; then
+    $HOME/.local/bin/bundle install --gemfile="$HOME/Gemfile"
+  fi
 
 {{ end }}

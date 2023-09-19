@@ -32,10 +32,10 @@ export GIT_EDITOR="nvim"
 
 {{ end }}
 
-# tea magic
-# if [ -d "$HOME/.tea" ]; then
-if ! command -v tea &> /dev/null; then
-  # source <(tea --magic=zsh --silent)
+# tea shell integration
+# https://docs.tea.xyz/shell-integration
+if command -v tea &> /dev/null; then
+  source <(tea --shellcode)
 fi
 
 # java
