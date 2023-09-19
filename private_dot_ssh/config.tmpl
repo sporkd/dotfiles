@@ -1,12 +1,15 @@
-Host *github.com
-  hostname github.com
+Host *
   AddKeysToAgent yes
   UseKeychain yes
 
 Host github.com
+  hostname github.com
+  IdentitiesOnly yes
   IdentityFile ~/.ssh/{{ .github_user }}_ed25519
   User {{ .github_user }}
 
-Host sporkd.github.com
+Host sporkd.github
+  hostname github.com
+  IdentitiesOnly yes
   IdentityFile ~/.ssh/sporkd_ed25519
   User sporkd
