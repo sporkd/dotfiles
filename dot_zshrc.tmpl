@@ -32,12 +32,6 @@ export GIT_EDITOR="nvim"
 
 {{ end }}
 
-# tea shell integration
-# https://docs.tea.xyz/shell-integration
-if command -v tea &> /dev/null; then
-  source <(tea --shellcode)
-fi
-
 # java
 export JAVA_HOME="$HOME/.local"
 
@@ -50,16 +44,27 @@ if [ -d "$HOME/Library/Android/sdk/cmdline-tools/latest/bin" ]; then
 fi
 
 # ruby
-export GEM_HOME="$HOME/.gem"
-export PATH="$HOME/.gem/bin:$PATH"
+# export GEM_HOME="$HOME/.gem"
+# export PATH="$HOME/.gem/bin:$PATH"
 
 # node
-export NPM_CONFIG_PREFIX="$HOME/.node_modules"
-export PATH="$HOME/.node_modules/bin:$PATH"
+# export NPM_CONFIG_PREFIX="$HOME/.node_modules"
+# export PATH="$HOME/.node_modules/bin:$PATH"
+
+# tea shell integration
+# https://docs.tea.xyz/shell-integration
+if command -v tea &> /dev/null; then
+  source <(tea --shellcode)
+fi
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
+
+# asdf
+if [ -f "{{ $homebrew_prefix }}/opt/asdf/libexec/asdf.sh" ]; then
+  source {{ $homebrew_prefix }}/opt/asdf/libexec/asdf.sh
+fi
 
 # fzf
 source $HOME/.config/fzf/key-bindings.zsh
