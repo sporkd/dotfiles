@@ -29,6 +29,14 @@
     echo "Found homebrew"
   fi
 
+  # Tea
+  if [ ! -x /usr/local/bin/tea ]; then
+    echo "Installing tea..."
+    curl -fsS https://tea.xyz | sh
+  else
+    echo "Found tea"
+  fi
+
   # Kitty
   if [ ! -d "/Applications/kitty.app" ]; then
     echo "Installing kitty..."
