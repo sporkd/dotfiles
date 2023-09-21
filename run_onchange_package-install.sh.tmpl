@@ -27,7 +27,7 @@
     [ ! -x "$HOME/.local/bin/node" ] && tea install nodejs.org@latest
     [ ! -x "$HOME/.local/bin/npm" ] && tea install npmjs.com@latest
     [ ! -x "$HOME/.local/bin/ruby" ] && tea install ruby-lang.org@latest
-    [ ! -x "$HOME/.local/bin/gem" ] && tea install rubygems.org@latest
+    [ ! -x "$HOME/.local/bin/gem" ] && tea install rubygems.org@latest && gem install bundler
   fi
 
   # Gems
