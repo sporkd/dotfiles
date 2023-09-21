@@ -19,14 +19,14 @@ export GIT_EDITOR="nvim"
   fi
 
   # fish(y)
-  source {{ $homebrew_prefix }}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  source {{ $homebrew_prefix }}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  source {{ $homebrew_prefix }}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+  source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  source $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
   bindkey '^[[A' history-substring-search-up
   bindkey '^[[B' history-substring-search-down
 
   # navigation
-  source {{ $homebrew_prefix }}/etc/profile.d/z.sh
+  source $HOMEBREW_PREFIX/etc/profile.d/z.sh
 
 {{ else if eq .chezmoi.os "linux" }}
 
@@ -35,9 +35,15 @@ export GIT_EDITOR="nvim"
 # java
 export JAVA_HOME="$HOME/.local"
 
+# postgresql
+# requires `brew link postgresql@VERSION`
+if [ -d "$HOMEBREW_PREFIX/opt/libpq/bin" ]; then
+  export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
+fi
+
 # android
-if [ -x "{{ $homebrew_prefix }}/share/android-ndk" ]; then
-  export ANDROID_NDK_HOME="{{ $homebrew_prefix }}/share/android-ndk"
+if [ -x "$HOMEBREW_PREFIX/share/android-ndk" ]; then
+  export ANDROID_NDK_HOME="$HOMEBREW_PREFIX/share/android-ndk"
 fi
 if [ -d "$HOME/Library/Android/sdk/cmdline-tools/latest/bin" ]; then
   export PATH="$HOME/Library/Android/sdk/cmdline-tools/latest/bin:$PATH"
@@ -62,8 +68,8 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 
 # asdf
-if [ -f "{{ $homebrew_prefix }}/opt/asdf/libexec/asdf.sh" ]; then
-  source {{ $homebrew_prefix }}/opt/asdf/libexec/asdf.sh
+if [ -f "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
+  source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
 fi
 
 # fzf

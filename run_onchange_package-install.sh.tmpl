@@ -23,6 +23,9 @@
   if command -v tea &> /dev/null; then
     source <(tea --shellcode)
     [ ! -x "$HOME/.local/bin/fzf" ] && tea install fzf
+    [ ! -x "$HOME/.local/bin/go" ] && tea install go.dev@latest
+    [ ! -x "$HOME/.local/bin/node" ] && tea install nodejs.org@latest
+    [ ! -x "$HOME/.local/bin/npm" ] && tea install npmjs.com@latest
     [ ! -x "$HOME/.local/bin/ruby" ] && tea install ruby-lang.org@latest
     [ ! -x "$HOME/.local/bin/gem" ] && tea install rubygems.org@latest
   fi
