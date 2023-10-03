@@ -2,9 +2,7 @@
 
 echo "SCRIPT: $0"
 
-# set -eufo pipefail
-
-sudo -v -p "OSX password for %p:"
+set -eo pipefail
 
 # pkgx packages
 if command -v pkgx &> /dev/null; then
@@ -19,7 +17,7 @@ fi
 
 # fix pkgx ruby linking issue
 if [ ! -L /opt/ruby-lang.org ]; then
-  sudo ln -s "$HOME/.pkgx/ruby-lang.org" /opt/ruby-lang.org
+  sudo -p "OSX password for %p:" ln -s "$HOME/.pkgx/ruby-lang.org" /opt/ruby-lang.org
 fi
 
 {{ if eq .chezmoi.os "linux" }}
@@ -29,7 +27,7 @@ fi
   # fix osx ruby linking issue
   if [ -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk ]; then
     if [ ! -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users ]; then
-      sudo ln -s /Users /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users
+      sudo -p "OSX password for %p:" ln -s /Users /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users
     fi
   fi
 
