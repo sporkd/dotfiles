@@ -4,7 +4,7 @@ echo "SCRIPT: $0"
 
 set -eo pipefail
 
-# pkgx packages
+# pkgx installs
 if command -v pkgx &> /dev/null; then
   source <(pkgx --shellcode)
   [ ! -x "$HOME/.local/bin/fzf" ] && pkgx install fzf
@@ -17,7 +17,7 @@ fi
 
 # fix pkgx ruby linking issue
 if [ ! -L /opt/ruby-lang.org ]; then
-  sudo -p "OSX password for %p:" ln -s "$HOME/.pkgx/ruby-lang.org" /opt/ruby-lang.org
+  sudo -p "password for %p:" ln -s "$HOME/.pkgx/ruby-lang.org" /opt/ruby-lang.org
 fi
 
 {{ if eq .chezmoi.os "linux" }}
