@@ -57,10 +57,10 @@ fi
 # export NPM_CONFIG_PREFIX="$HOME/.node_modules"
 # export PATH="$HOME/.node_modules/bin:$PATH"
 
-# tea shell integration
-# https://docs.tea.xyz/shell-integration
-if command -v tea &> /dev/null; then
-  source <(tea --shellcode)
+# pkgx shell integration
+# https://docs.pkgx.sh/using-pkgx/shell-integration
+if command -v pkgx &> /dev/null; then
+  source <(pkgx --shellcode)
 fi
 
 export PATH="/usr/local/bin:$PATH"
@@ -99,9 +99,9 @@ alias ls="lsd -1"
 alias ranger="VISUAL=$EDITOR ranger"
 
 # general
-alias files='tea xplr'
+alias files='pkgx xplr'
 alias icat='kitty +kitten icat'
-alias recent='tea exa --header -la --sort oldest | head -n 25'
+alias recent='pkgx exa --header -la --sort oldest | head -n 25'
 alias uuid="uuidgen | tr -d '\\n' | tr '[:upper:]' '[:lower:]' | pbcopy; pbpaste; echo"
 alias weather='curl wttr.in'
 

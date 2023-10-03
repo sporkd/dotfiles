@@ -59,11 +59,7 @@ if status --is-interactive
 
   {{ end }}
 
-  # init tea
-  if test -x "$HOME/.tea/tea.xyz/v*/bin/tea"
-    fish_add_path "$HOME/.tea/tea.xyz/v*/bin"
-    # tea --magic=fish --silent | source
-  end
+  # TODO: pkgx
 
   # zoxide init fish | source
   starship init fish | source

@@ -1,5 +1,9 @@
 #! /usr/bin/env zsh
 
+echo "SCRIPT: $0"
+
+set -eufo pipefail
+
 {{ $homebrew_prefix := "" -}}
 
 {{ if eq .chezmoi.os "linux" }}
@@ -29,12 +33,12 @@
     echo "Found homebrew"
   fi
 
-  # Tea
-  if [ ! -x /usr/local/bin/tea ]; then
-    echo "Installing tea..."
-    curl -fsS https://tea.xyz | sh
+  # pkgx
+  if [ ! -x /usr/local/bin/pkgx ]; then
+    echo "Installing pkgx..."
+    curl -fsS https://pkgx.sh | sh
   else
-    echo "Found tea"
+    echo "Found pkgx"
   fi
 
   # Kitty
