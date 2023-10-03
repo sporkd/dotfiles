@@ -28,6 +28,9 @@ export GIT_EDITOR="nvim"
   # navigation
   source $HOMEBREW_PREFIX/etc/profile.d/z.sh
 
+  # xcode
+  export SDKROOT="$(xcrun --show-sdk-path)"
+
 {{ else if eq .chezmoi.os "linux" }}
 
 {{ end }}
