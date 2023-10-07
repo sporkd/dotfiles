@@ -1,42 +1,80 @@
 {{- /* Checks if running interactively, which is not the case for GitHub Codespaces */ -}}
 {{- $interactive := stdinIsATTY -}}
 
-{{- /* Initializes the full_name variable with a default value */ -}}
-{{- $full_name := "Peter Gumeson" -}}
-{{- /* If full_name was previously set, reuses it */ -}}
-{{- if hasKey . "full_name" -}}
-{{-   $full_name = .full_name -}}
-{{- /* Otherwise, if running interactively, prompts for a full_name */ -}}
-{{- else if $interactive -}}
-{{-   $full_name = promptString "Full Name" $full_name -}}
+{{- if $interactive -}}
+{{-   writeToStdout "💡 Tip: to re-enter these values, run `chezmoi init --data=false`\n\n" -}}
 {{- end -}}
 
-{{- /* Does the same for the email */ -}}
-{{- $email := "gumeson@gmail.com" -}}
+{{- /* full_name */ -}}
+{{- $full_name := "" -}}
+{{- if hasKey . "full_name" -}}
+{{-   $full_name = .full_name -}}
+{{- else if $interactive -}}
+{{-   $full_name = promptString "Your full name" -}}
+{{- end -}}
+
+{{- /* email */ -}}
+{{- $email := "" -}}
 {{- if hasKey . "email" -}}
 {{-   $email = .email -}}
 {{- else if $interactive -}}
-{{-   $email = promptString "Email" $email -}}
+{{-   $email = promptString "Your email" -}}
 {{- end -}}
 
-{{- /* Does the same for the git_email */ -}}
+{{- /* github_user */ -}}
+{{- $github_user := "" -}}
+{{- if hasKey . "github_user" -}}
+{{-   $github_user = .github_user -}}
+{{- else if $interactive -}}
+{{-   $github_user = promptString "Your github username" -}}
+{{- end -}}
+
+{{- /* git_email */ -}}
 {{- $git_email := $email -}}
 {{- if hasKey . "git_email" -}}
 {{-   $git_email = .git_email -}}
 {{- else if $interactive -}}
-{{-   $git_email = promptString "Git Email" $git_email -}}
+{{-   $git_email = promptString "Your email for git commits" $git_email -}}
 {{- end -}}
 
-{{- /* github_user */ -}}
-{{- $github_user := "sporkd" -}}
-{{- if hasKey . "github_user" -}}
-{{-   $github_user = .github_user -}}
+{{- /* editor */ -}}
+{{- $choices := list "code" "emacs" "nvim" "zed" "other" -}}
+{{- $editor := "nvim" -}}
+{{- if hasKey . "editor" -}}
+{{-   $editor = .editor -}}
 {{- else if $interactive -}}
-{{-   $github_user = promptString "GitHub Username" $github_user -}}
+{{-   $editor = promptChoice "Your text editor for git commits" $choices $editor -}}
+{{-   if eq $editor "other" -}}
+{{-     $editor = promptString "Other Editor" -}}
+{{-   end -}}
 {{- end -}}
 
-{{- if $interactive -}}
-{{-   writeToStdout "💡 Tip: you can re-enter your full_name and email with `chezmoi init --data=false`.\n" -}}
+{{- /* visual */ -}}
+{{- $choices := list "code" "emacs" "nvim" "rubymine" "zed" "other"  -}}
+{{- $visual := "code" -}}
+{{- if hasKey . "visual" -}}
+{{-   $visual = .visual -}}
+{{- else if $interactive -}}
+{{-   $visual = promptChoice "Your visual editor (IDE)" $choices $visual -}}
+{{-   if eq $visual "other" -}}
+{{-     $visual = promptString "Other visual editor (IDE)" -}}
+{{-   end -}}
+{{- end -}}
+
+{{- /* vscode.vim_mode */ -}}
+{{- $vim_mode := false -}}
+{{- if dig "vscode" "vim_mode" false . -}}
+{{-   $vim_mode = .vscode.vim_mode -}}
+{{- else if $interactive -}}
+{{-   $vim_mode = promptBool "Use VIM mode in vscode" $vim_mode -}}
+{{- end -}}
+
+{{- /* use_flutter */ -}}
+{{- $use_flutter := false -}}
+{{- if hasKey . "use_flutter" -}}
+{{-   $use_flutter = .use_flutter -}}
+{{- else if $interactive -}}
+{{-   $use_flutter = promptBool "Flutter dev environment" $use_flutter -}}
 {{- end -}}
 
 [data]
@@ -44,3 +82,8 @@
   email = "{{ $email }}"
   git_email = "{{ $git_email }}"
   github_user = "{{ $github_user }}"
+  editor = "{{ $editor }}"
+  visual = "{{ $visual }}"
+  use_flutter = "{{ $use_flutter }}"
+  [data.vscode]
+    vim_mode = "{{ $vim_mode }}"

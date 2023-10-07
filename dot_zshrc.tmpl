@@ -2,7 +2,7 @@
 
 export SHELL="/bin/zsh"
 export EDITOR="{{ .editor }}"
-export VISUAL="{{ .ide }} --wait"
+export VISUAL="{{ .visual }} --wait"
 export GIT_EDITOR="{{ .editor }}"
 
 HISTFILE=~/.zsh_history
@@ -58,10 +58,11 @@ export JAVA_HOME="$HOME/.local"
 
 # postgresql
 # requires `brew link postgresql@VERSION`
-if [ -d "$HOMEBREW_PREFIX/opt/libpq/bin" ]; then
-  export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
-fi
+# if [ -d "$HOMEBREW_PREFIX/opt/libpq/bin" ]; then
+#   export PATH="$HOMEBREW_PREFIX/opt/libpq/bin:$PATH"
+# fi
 
+{{ if eq .use_flutter "true" }}
 # android
 if [ -x "$HOMEBREW_PREFIX/share/android-ndk" ]; then
   export ANDROID_NDK_HOME="$HOMEBREW_PREFIX/share/android-ndk"
@@ -69,6 +70,7 @@ fi
 if [ -d "$HOME/Library/Android/sdk/cmdline-tools/latest/bin" ]; then
   export PATH="$HOME/Library/Android/sdk/cmdline-tools/latest/bin:$PATH"
 fi
+{{ end }}
 
 # ruby
 # export GEM_HOME="$HOME/.gem"

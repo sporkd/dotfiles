@@ -14,9 +14,6 @@ set -euo pipefail
   # Zoxide
   curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
-  # Kitty
-  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-
 {{ else if eq .chezmoi.os "darwin" }}
 
   # Homebrew
@@ -33,20 +30,8 @@ set -euo pipefail
     echo "Found homebrew"
   fi
 
-  # pkgx
-  if [ ! -x /usr/local/bin/pkgx ]; then
-    echo "Installing pkgx..."
-    curl -fsS https://pkgx.sh | sh
-  else
-    echo "Found pkgx"
-  fi
-
-  # Kitty
-  if [ ! -d "/Applications/kitty.app" ]; then
-    echo "Installing kitty..."
-    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-  else
-    echo "Found kitty"
-  fi
-
 {{ end }}
+
+# Kitty
+echo "Installing kitty..."
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin

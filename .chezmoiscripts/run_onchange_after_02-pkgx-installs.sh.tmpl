@@ -2,29 +2,40 @@
 
 echo "SCRIPT: $0"
 
+
 set -eo pipefail
 
+if [ -x /usr/local/bin/pkgx ]; then
+  echo "Updating pkgx..."
+  sudo -p "Password for %p:" rm /usr/local/bin/pkgx
+else
+  echo "Installing pkgx..."
+fi
+curl -fsS https://pkgx.sh | sh
+
+source <(pkgx --shellcode)
+
 # pkgx installs
-if command -v pkgx &> /dev/null; then
-  source <(pkgx --shellcode)
-  [ ! -x "$HOME/.local/bin/fzf" ] && pkgx install fzf
-  [ ! -x "$HOME/.local/bin/go" ] && pkgx install go.dev@latest
-  [ ! -x "$HOME/.local/bin/node" ] && pkgx install nodejs.org@latest
-  [ ! -x "$HOME/.local/bin/npm" ] && pkgx install npmjs.com@latest
-  [ ! -x "$HOME/.local/bin/ruby" ] && pkgx install ruby-lang.org@latest
-  [ ! -x "$HOME/.local/bin/gem" ] && pkgx install rubygems.org@latest && gem install bundler
+[ ! -x "$HOME/.local/bin/fzf" ] && pkgx install fzf
+[ ! -x "$HOME/.local/bin/java" ] && pkgx install openjdk.org@latest
+[ ! -x "$HOME/.local/bin/go" ] && pkgx install go.dev@latest
+[ ! -x "$HOME/.local/bin/node" ] && pkgx install nodejs.org@latest
+[ ! -x "$HOME/.local/bin/npm" ] && pkgx install npmjs.com@latest
+[ ! -x "$HOME/.local/bin/ruby" ] && pkgx install ruby-lang.org@latest
+
+if [ ! -x "$HOME/.local/bin/gem" ]; then
+  pkgx install rubygems.org@latest
+  # $HOME/.local/bin/gem install bundler
 fi
 
 # fix pkgx ruby linking issue
 if [ ! -L /opt/ruby-lang.org ]; then
-  sudo -p "password for %p:" ln -s "$HOME/.pkgx/ruby-lang.org" /opt/ruby-lang.org
+  sudo -p "Password for %p:" ln -s "$HOME/.pkgx/ruby-lang.org" /opt/ruby-lang.org
 fi
 
-{{ if eq .chezmoi.os "linux" }}
+{{ if eq .chezmoi.os "darwin" }}
 
-{{ else if eq .chezmoi.os "darwin" }}
-
-  # fix osx ruby linking issue
+  # fix ruby linking issue for osx system ruby
   if [ -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk ]; then
     if [ ! -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users ]; then
       sudo -p "OSX password for %p:" ln -s /Users /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users

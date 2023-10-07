@@ -50,10 +50,11 @@ cask "rocket"
 cask "visual-studio-code"
 # cask "xquartz"
 
-# Flutter Dependencies
-# cask "android-ndk"
-# cask "android-studio"
-# cask "flutter"
+{{- if eq .use_flutter "true" }}
+cask "android-ndk"
+cask "android-studio"
+cask "flutter"
+{{ end }}
 
 # VSCode Extensions
 vscode "alexkrechik.cucumberautocomplete"
@@ -86,7 +87,11 @@ vscode "steoates.autoimport"
 vscode "t-sauer.autolinting-for-javascript"
 vscode "tamasfe.even-better-toml"
 vscode "Tyriar.sort-lines"
-vscode "vscodevim.vim"
 vscode "Vue.volar"
 vscode "Zignd.html-css-class-completion"
 vscode "zhuangtongfa.material-theme"
+
+{{- if eq .vscode.vim_mode "true" }}
+vscode "vscodevim.vim"
+{{ end }}
+
