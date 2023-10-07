@@ -1,3 +1,5 @@
+command_timeout = 1500
+
 #format = """
 #[╭─user───❯](bold blue) $username
 #[┣─system─❯](bold yellow) $hostname
