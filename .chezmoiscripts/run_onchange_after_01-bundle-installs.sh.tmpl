@@ -24,10 +24,10 @@ echo "SCRIPT: $0"
 
   brew update
 
-  # Some cleanup
-  brew uninstall --cask --force --zap blueutil colima dagger fontforge skhd yabai mpc mpd ncmpcpp sketchybar disk-inventory-x istat-menus karabiner-elements lunar mpv notunes
-
   brew bundle --file="$HOME/Brewfile"
+
+  # Remove unused dependencies
+  brew autoremove
 
 {{ end }}
 
