@@ -132,6 +132,26 @@ function _asdf_reload() {
   if [ -f ".tool-versions" -a "$PWD" != "$HOME" ]; then
     if [ -f "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
       source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
+
+      plugins="$(asdf plugin list)"
+      while IFS= read -r line; do
+        [[ $line =~ ^[[:blank:]]*(#.*)?$ ]] && continue
+        read -rA parts <<<"$line"
+        if [[ $parts[1] && $parts[2] ]]; then
+          if ! grep -q $parts[1] <<< "$plugins" ; then
+            echo "adding ${parts[1]} plugin..."
+            asdf plugin-add $parts[1]
+          else
+            echo "using ${parts[1]} plugin..."
+          fi
+          installed="$(asdf list ${parts[1]} ${parts[2]} 2> /dev/null)"
+          echo "installed = '$installed'"
+          if [[ "$installed" = "" ]]; then
+            echo "installing ${parts[1]} ${parts[2]}..."
+            asdf install ${parts[1]} ${parts[2]}
+          fi
+        fi
+      done < .tool-versions
     fi
   fi
 }
