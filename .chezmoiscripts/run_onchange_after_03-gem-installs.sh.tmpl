@@ -1,0 +1,12 @@
+#! /usr/bin/env zsh
+
+echo "SCRIPT: $0"
+
+# set -euo pipefail
+
+## Gemfile: {{ include "Gemfile.tmpl" | sha256sum }}
+
+# Install default gems
+if [ -x "$HOME/.local/bin/bundle" ]; then
+  $HOME/.local/bin/bundle install --gemfile="$HOME/Gemfile"
+fi

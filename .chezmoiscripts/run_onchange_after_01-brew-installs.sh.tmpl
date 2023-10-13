@@ -4,7 +4,6 @@ echo "SCRIPT: $0"
 
 # set -euo pipefail
 
-## Gemfile: {{ include "Gemfile.tmpl" | sha256sum }}
 ## Brewfile: {{ include "Brewfile.tmpl" | sha256sum }}
 {{- $homebrew_prefix := "" -}}
 
@@ -27,11 +26,8 @@ echo "SCRIPT: $0"
   brew bundle --file="$HOME/Brewfile"
 
   # Remove unused dependencies
-  brew autoremove
+  # brew autoremove
 
 {{ end }}
 
-# Gems
-if [ -x "$HOME/.local/bin/bundle" ]; then
-  $HOME/.local/bin/bundle install --gemfile="$HOME/Gemfile"
-fi
+echo "brew installs complete"

@@ -2,8 +2,8 @@
 
 echo "SCRIPT: $0"
 
-
 set -eo pipefail
+
 
 if [ -x /usr/local/bin/pkgx ]; then
   echo "Updating pkgx..."
@@ -25,7 +25,7 @@ source <(pkgx --shellcode)
 
 if [ ! -x "$HOME/.local/bin/gem" ]; then
   pkgx install rubygems.org@latest
-  # $HOME/.local/bin/gem install bundler
+  $HOME/.local/bin/gem install bundler
 fi
 
 # fix pkgx ruby linking issue
