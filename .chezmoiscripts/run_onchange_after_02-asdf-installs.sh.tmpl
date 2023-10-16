@@ -27,7 +27,7 @@ if [ -f "$HOME/.tool-versions" ]; then
         versions="$(asdf list all $plugin)"
         if grep -q $version <<< "$versions" ; then
           echo "installing $plugin $version..."
-          # asdf install $plugin $version
+          asdf install $plugin $version
         else
           echo "No compatible version found for $plugin $version"
         fi
