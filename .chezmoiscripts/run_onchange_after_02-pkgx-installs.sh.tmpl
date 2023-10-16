@@ -1,9 +1,8 @@
 #! /usr/bin/env zsh
 
-echo "SCRIPT: $0"
+echo "\nSCRIPT: $0\n"
 
 set -eo pipefail
-
 
 if [ -x /usr/local/bin/pkgx ]; then
   echo "Updating pkgx..."
@@ -21,25 +20,14 @@ source <(pkgx --shellcode)
 [ ! -x "$HOME/.local/bin/go" ] && pkgx install go.dev@latest
 [ ! -x "$HOME/.local/bin/node" ] && pkgx install nodejs.org@latest
 [ ! -x "$HOME/.local/bin/npm" ] && pkgx install npmjs.com@latest
-[ ! -x "$HOME/.local/bin/ruby" ] && pkgx install ruby-lang.org@latest
+# [ ! -x "$HOME/.local/bin/ruby" ] && pkgx install ruby-lang.org@latest
 
-if [ ! -x "$HOME/.local/bin/gem" ]; then
-  pkgx install rubygems.org@latest
-  $HOME/.local/bin/gem install bundler
-fi
+# if [ ! -x "$HOME/.local/bin/gem" ]; then
+#   pkgx install rubygems.org@latest
+#   $HOME/.local/bin/gem install bundler
+# fi
 
 # fix pkgx ruby linking issue
 if [ ! -L /opt/ruby-lang.org ]; then
   sudo -p "Password for %p:" ln -s "$HOME/.pkgx/ruby-lang.org" /opt/ruby-lang.org
 fi
-
-{{ if eq .chezmoi.os "darwin" }}
-
-  # fix ruby linking issue for osx system ruby
-  if [ -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk ]; then
-    if [ ! -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users ]; then
-      sudo -p "OSX password for %p:" ln -s /Users /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users
-    fi
-  fi
-
-{{ end }}

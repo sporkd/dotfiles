@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 
-echo "SCRIPT: $0"
+echo "\nSCRIPT: $0\n"
 
 # set -euo pipefail
 
@@ -26,8 +26,6 @@ echo "SCRIPT: $0"
   brew bundle --file="$HOME/Brewfile"
 
   # Remove unused dependencies
-  # brew autoremove
+  brew autoremove
 
 {{ end }}
-
-echo "brew installs complete"

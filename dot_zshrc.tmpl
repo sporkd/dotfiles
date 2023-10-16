@@ -82,8 +82,20 @@ fi
 
 # pkgx shell integration
 # https://docs.pkgx.sh/using-pkgx/shell-integration
-if command -v pkgx &> /dev/null; then
-  source <(pkgx --shellcode)
+# if command -v pkgx &> /dev/null; then
+#   source <(pkgx --shellcode)
+# fi
+
+# asdf
+if [ -f "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
+  source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
+  source $HOME/.config/asdf/hooks.zsh
+fi
+
+# direnv
+if command -v direnv &> /dev/null; then
+  export DIRENV_LOG_FORMAT=""
+  eval "$(direnv hook zsh)"
 fi
 
 export PATH="/usr/local/bin:$PATH"
@@ -125,34 +137,3 @@ alias weather='curl wttr.in'
 
 # password
 alias passgen='dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 | rev | cut -b 2- | rev'
-
-# prepend asdf to path if .tool_versions
-function _asdf_reload() {
-  emulate -L zsh
-  if [ -f ".tool-versions" -a "$PWD" != "$HOME" ]; then
-    if [ -f "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
-      source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
-
-      plugins="$(asdf plugin list)"
-      while IFS= read -r line; do
-        [[ $line =~ ^[[:blank:]]*(#.*)?$ ]] && continue
-        read -rA parts <<<"$line"
-        if [[ $parts[1] && $parts[2] ]]; then
-          if ! grep -q $parts[1] <<< "$plugins" ; then
-            echo "adding ${parts[1]} plugin..."
-            asdf plugin-add $parts[1]
-          else
-            echo "using ${parts[1]} plugin..."
-          fi
-          installed="$(asdf list ${parts[1]} ${parts[2]} 2> /dev/null)"
-          echo "installed = '$installed'"
-          if [[ "$installed" = "" ]]; then
-            echo "installing ${parts[1]} ${parts[2]}..."
-            asdf install ${parts[1]} ${parts[2]}
-          fi
-        fi
-      done < .tool-versions
-    fi
-  fi
-}
-chpwd_functions=(${chpwd_functions[@]} "_asdf_reload")
