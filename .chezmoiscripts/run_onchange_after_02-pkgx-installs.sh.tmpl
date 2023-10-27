@@ -15,7 +15,6 @@ curl -fsS https://pkgx.sh | sh
 source <(pkgx --shellcode)
 
 # pkgx installs
-[ ! -x "$HOME/.local/bin/fzf" ] && pkgx install fzf
 [ ! -x "$HOME/.local/bin/java" ] && pkgx install openjdk.org@latest
 [ ! -x "$HOME/.local/bin/go" ] && pkgx install go.dev@latest
 [ ! -x "$HOME/.local/bin/node" ] && pkgx install nodejs.org@latest
