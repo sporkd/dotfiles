@@ -3,12 +3,8 @@ function _asdf_chpwd() {
   emulate -L zsh
 
   if [ -f ".tool-versions" -a "$PWD" != "$HOME" ]; then
-    if command -v pkgx &> /dev/null; then
-      pkgx unload &> /dev/null
-    fi
-
     if [ -f "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
-      source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
+      # source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
       plugins="$(asdf plugin list)"
       while IFS= read -r line; do
         [[ $line =~ ^[[:blank:]]*(#.*)?$ ]] && continue
@@ -39,6 +35,8 @@ function _asdf_chpwd() {
         fi
       done < "$PWD/.tool-versions"
     fi
+    # pkgx env reload bug
+    env &> /dev/null
   fi
 }
 chpwd_functions=(${chpwd_functions[@]} "_asdf_chpwd")

@@ -80,23 +80,23 @@ fi
 # export NPM_CONFIG_PREFIX="$HOME/.node_modules"
 # export PATH="$HOME/.node_modules/bin:$PATH"
 
-# pkgx shell integration
-# https://docs.pkgx.sh/using-pkgx/shell-integration
-# if command -v pkgx &> /dev/null; then
-#   source <(pkgx --shellcode)
-# fi
-
 # asdf
 if [ -f "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
   source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
   source $HOME/.config/asdf/hooks.zsh
 fi
 
-# direnv
-if command -v direnv &> /dev/null; then
-  export DIRENV_LOG_FORMAT=""
-  eval "$(direnv hook zsh)"
+# pkgx shell integration
+# https://docs.pkgx.sh/using-pkgx/shell-integration
+if command -v pkgx &> /dev/null; then
+  source <(pkgx --shellcode)
 fi
+
+# direnv (pkgx provides this functionality)
+# if command -v direnv &> /dev/null; then
+#   export DIRENV_LOG_FORMAT=""
+#   eval "$(direnv hook zsh)"
+# fi
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
