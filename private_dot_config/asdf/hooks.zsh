@@ -4,7 +4,6 @@ function _asdf_chpwd() {
 
   if [ -f ".tool-versions" -a "$PWD" != "$HOME" ]; then
     if [ -f "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
-      # source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
       plugins="$(asdf plugin list)"
       while IFS= read -r line; do
         [[ $line =~ ^[[:blank:]]*(#.*)?$ ]] && continue
@@ -13,6 +12,14 @@ function _asdf_chpwd() {
         version=$parts[2]
         if [[ $plugin && $version ]]; then
           echo
+
+          if [[ "$plugin" = "ruby" ]]; then
+            # Remove pkgx ruby and rubygems from PATH
+            if [[ "$(command -v env)" = "env" ]]; then
+              env -ruby-lang.org -rubygems.org
+            fi
+          fi
+
           if ! grep -q $plugin <<< "$plugins" ; then
             echo "Adding $plugin plugin..."
             asdf plugin-add $plugin
@@ -35,8 +42,9 @@ function _asdf_chpwd() {
         fi
       done < "$PWD/.tool-versions"
     fi
-    # pkgx env reload bug
-    env &> /dev/null
+
+    # Re-source asdf to put at front of PATH
+    source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
   fi
 }
 chpwd_functions=(${chpwd_functions[@]} "_asdf_chpwd")
