@@ -1,0 +1,15 @@
+# prepend asdf to path if .tool_versions
+function _asdf_chpwd() {
+  emulate -L zsh
+
+  if [ -f ".tool-versions" -a "$PWD" != "$HOME" ]; then
+    if [ -f "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
+
+      {{ template "asdf_install.sh" dict "dir" "$PWD" }}
+
+      # Re-source asdf to put at front of PATH
+      source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
+    fi
+  fi
+}
+chpwd_functions=(${chpwd_functions[@]} "_asdf_chpwd")
