@@ -1,6 +1,7 @@
 plugins="$(asdf plugin list)"
 while IFS= read -r line; do
   [[ $line =~ ^[[:blank:]]*(#.*)?$ ]] && continue
+
   read -rA parts <<<"$line"
   plugin=$parts[1]
   version=$parts[2]
@@ -20,12 +21,14 @@ while IFS= read -r line; do
     fi
 
     if ! grep -q $plugin <<< "$plugins" ; then
-      echo "Adding $plugin plugin..."
+      _print_lib asdf  "adding $plugin plugin"
       asdf plugin-add $plugin
       [ $? -ne 0 ] && continue
     else
-      echo "Using $plugin plugin..."
+      _print_lib asdf  "using $plugin plugin"
     fi
+
+    echo
     asdf list $plugin $version &> /dev/null
     if [ $? -ne 0 ]; then
       versions="$(asdf list all $plugin)"
@@ -36,18 +39,38 @@ while IFS= read -r line; do
           dev_on=true
           _pkgx_dev_off
         fi
-        echo
-        echo "installing $plugin $version..."
-        asdf install $plugin $version
+
+        if [[ "{{ .dir }}" = "$HOME" ]]; then
+          _print_lib asdf  "installing $plugin $version"
+          asdf install $plugin $version
+          _ok
+        else
+          _print_lib asdf  "This project requires $plugin $version"
+          _prompt -p "Install? [Y|n] " -d "Y" response
+          if [[ $response =~ ^(y|yes|Y) ]]; then
+            echo
+            _print_lib asdf  "installing $plugin $version"
+            asdf install $plugin $version
+
+            if [ $? -eq 0 ]; then
+              _print_ok "Success!"
+            else
+              _print_error "Something went wrong"
+            fi
+          else
+            _print_skipping
+          fi
+        fi
+
         # Turn pkgx dev back on
         if $dev_on; then
           [[ "$(command -v dev)" = "dev" ]] && dev
         fi
       else
-        echo "No compatible version found for $plugin $version"
+        _print_warning "No compatible version found for $plugin $version"
       fi
     else
-      echo "$plugin $version already installed"
+      _print_lib asdf  "$plugin $version already installed"
     fi
 
     # Install bundler version in Gemfile.lock
@@ -56,9 +79,9 @@ while IFS= read -r line; do
     #   symver=$(echo "$output" | grep -Eo "\`gem install bundler:(.*)\`" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
     #   if [[ -n "$symver" && $(gem info -i -v ${symver} bundler) = 'false' ]]; then
     #     echo
-    #     echo "Installing bundler v$symver..."
+    #     _print_installing "bundler v$symver"
     #     result=$(asdf exec gem install bundler:${symver})
-    #     echo "$result"
+    #     _print_ok "$result"
     #   fi
     # fi
   fi

@@ -1,0 +1,10 @@
+#! /usr/bin/env zsh
+
+_ESC="\x1b["
+NOCOLOR=$_ESC"39;49;00m"
+YELLOW=$_ESC"33;01m"
+
+echo -e "\n${YELLOW}[running script]${NOCOLOR} $0\n"
+
+set -euo pipefail
+
