@@ -35,9 +35,9 @@ function _prompt() {
   while :
   do
     if [ "$prompt_text" = "true" ]; then
-      vared -p "$(echo -e "${BLUE}[?]${NOCOLOR} ")" -c _value
+      vared -p "$(echo -e "${FG_CYAN}[?]${RESET} ")" -c _value
     elif [ -n "$prompt_text" ]; then
-      vared -p "$(echo -e "${BLUE}[?]${NOCOLOR} "$prompt_text" ")" -c _value
+      vared -p "$(echo -e "${FG_CYAN}[?]${RESET} "$prompt_text" ")" -c _value
     else
       vared -c _value
     fi

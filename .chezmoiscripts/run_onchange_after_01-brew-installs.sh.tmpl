@@ -7,19 +7,8 @@ _print_running_script "$0"
 set +euo pipefail
 
 ## Brewfile: {{ include "Brewfile.tmpl" | sha256sum }}
-{{- $homebrew_prefix := "" -}}
 
-{{ if eq .chezmoi.os "linux" }}
-  {{- $homebrew_prefix = "/home/linuxbrew/.linuxbrew" -}}
-{{ else if eq .chezmoi.os "darwin" }}
-  {{- if eq .chezmoi.arch "x86_64" -}}
-  {{-   $homebrew_prefix = "/usr/local" -}}
-  {{- else -}}
-  {{-   $homebrew_prefix = "/opt/homebrew" -}}
-  {{- end }}
-{{ end }}
-
-if [ ! -x "{{ $homebrew_prefix }}/bin/brew" ]; then
+if [ ! -x "{{ .homebrew_prefix }}/bin/brew" ]; then
   _print_installing "homebrew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
@@ -27,7 +16,7 @@ else
 fi
 
 if ! command -v brew &> /dev/null; then
-  eval "$({{ $homebrew_prefix }}/bin/brew shellenv)"
+  eval "$({{ .homebrew_prefix }}/bin/brew shellenv)"
 fi
 
 echo

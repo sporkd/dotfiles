@@ -39,12 +39,7 @@ if status --is-interactive
     fish_add_path "$HOME/.local/bin"
     fish_add_path "$HOME/.cargo/bin"
 
-    {{- $homebrew_prefix := "/opt/homebrew" -}}
-    {{- if eq .chezmoi.arch "x86_64" -}}
-    {{-   $homebrew_prefix = "/usr/local" -}}
-    {{- end }}
-
-    eval ({{ $homebrew_prefix }}/bin/brew shellenv)
+    eval ({{ .homebrew_prefix }}/bin/brew shellenv)
 
   {{ else if eq .chezmoi.os "linux" }}
 

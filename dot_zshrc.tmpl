@@ -1,5 +1,3 @@
-{{- $homebrew_prefix := "" -}}
-
 {{ template "load_zfunctions.zsh" }}
 
 typeset -U path PATH
@@ -8,6 +6,8 @@ export SHELL="/bin/zsh"
 export EDITOR="{{ .editor }}"
 export VISUAL="{{ .visual }} --wait"
 export GIT_EDITOR="{{ .editor }}"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -27,34 +27,24 @@ setopt CORRECT
 setopt IGNORE_EOF
 # setopt COMPLETE_IN_WORD
 
+# homebrew
+if [ -x "{{ .homebrew_prefix }}/bin/brew" ]; then
+  eval "$({{ .homebrew_prefix }}/bin/brew shellenv)"
+fi
+
+# fish(y)
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# navigation
+source $HOMEBREW_PREFIX/etc/profile.d/z.sh
+
 {{ if eq .chezmoi.os "darwin" }}
-
-  # homebrew
-  {{- if eq .chezmoi.arch "x86_64" -}}
-  {{-   $homebrew_prefix = "/usr/local" -}}
-  {{- else -}}
-  {{-   $homebrew_prefix = "/opt/homebrew" -}}
-  {{- end }}
-
-  if [ -x "{{ $homebrew_prefix }}/bin/brew" ]; then
-    eval "$({{ $homebrew_prefix }}/bin/brew shellenv)"
-  fi
-
-  # fish(y)
-  source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  source $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
-
-  # navigation
-  source $HOMEBREW_PREFIX/etc/profile.d/z.sh
-
   # xcode
   export SDKROOT="$(xcrun --show-sdk-path)"
-
-{{ else if eq .chezmoi.os "linux" }}
-
 {{ end }}
 
 # java
