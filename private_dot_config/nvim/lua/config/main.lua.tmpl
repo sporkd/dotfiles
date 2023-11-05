@@ -61,7 +61,7 @@ cmd.filetype("indent on") -- load indentation settings for file type
 
 -- Global
 --
-local undodir = "/Users/peter/tmp/vim-undo-history"
+local undodir = "{{ .chezmoi.homeDir }}/tmp/vim-undo-history"
 
 -- always show signcolumns
 vim.wo.signcolumn = "yes" -- always show signcolumn
