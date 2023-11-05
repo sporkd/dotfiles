@@ -22,8 +22,8 @@ until [[ -f "$ssh_key_file" ]]; do
     _print_error "Oops, something went wrong."
     _prompt -p "Try again? [Y|n] " -d "Y" resp
     if [[ $resp =~ ^(n|no|N) ]]; then
-      _print_skipping "You will need to generate your key later."
-      exit 0
+      _print_skipping "You will need to generate your SSH keypair later."
+      exit 1
     fi
   fi
 done
@@ -47,14 +47,15 @@ while true; do
   _print_notice "using your ${FG_CYAN}{{ .github_user }}${RESET} username!"
 
   echo
-  gh auth login -h github.com -p ssh -s admin:public_key -w
+  gh auth login -h github.com -p ssh -s write:public_key -w # -s admin:public_key
+  resp=$(gh auth status 2>&1)
   echo
-  if [ $? -ne 0 ]; then
+  if ! [[ "$resp" =~ "Logged in to github.com as {{ .github_user }} " ]]; then
     _print_error "Oops, something went wrong."
     _prompt -p "Try again? [Y|n] " -d "Y" resp
     if [[ $resp =~ ^(n|no|N) ]]; then
-      _print_skipping "You will need to uplodad your key later."
-      exit 0
+      _print_skipping "You will need to uplodad your SSH private key later."
+      exit 1
     fi
   fi
 done
