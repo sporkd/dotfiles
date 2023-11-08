@@ -1,1 +1,5 @@
+{{- if eq .chezmoi.os "linux" -}}
+{{ .chezmoi.homeDir }}/.local/zed.app/bin/cli
+{{- else if eq .chezmoi.os "darwin" -}}
 /Applications/Zed.app/Contents/MacOS/cli
+{{- end -}}
