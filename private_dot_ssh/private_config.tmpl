@@ -1,3 +1,10 @@
+# Do not add your own configs to this file!
+# Instead, you can add new files to the ~/configs.d
+# directory which will all get included.
+# E.g. ~/.ssh/config.d/config.local
+
+Include config.d/*
+
 Host *
   AddKeysToAgent yes
   UseKeychain yes
@@ -8,9 +15,3 @@ Host github.com
   IdentitiesOnly yes
   IdentityFile ~/.ssh/{{ .github_user }}_ed25519
   User {{ .github_user }}
-
-Host sporkd.github
-  hostname github.com
-  IdentitiesOnly yes
-  IdentityFile ~/.ssh/sporkd_ed25519
-  User sporkd

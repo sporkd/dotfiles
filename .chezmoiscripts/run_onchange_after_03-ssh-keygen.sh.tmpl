@@ -15,8 +15,9 @@ until [[ -f "$ssh_key_file" ]]; do
   ssh-keygen -t ed25519 -f "$ssh_key_file" -C "{{ .git_email }}"
   if [ $? -eq 0 ]; then
     echo
+    chmod 600 "$ssh_key_file"
+    chmod 644 "$ssh_key_file.pub"
     _print_ok "generated $ssh_key_file"
-    chmod 700 "$HOME/.ssh"
   else
     echo
     _print_error "Oops, something went wrong."
