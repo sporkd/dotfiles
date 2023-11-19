@@ -28,7 +28,6 @@ while IFS= read -r line; do
       _print_lib asdf  "using $plugin plugin"
     fi
 
-    echo
     asdf list $plugin $version &> /dev/null
     if [ $? -ne 0 ]; then
       versions="$(asdf list all $plugin)"
@@ -43,7 +42,7 @@ while IFS= read -r line; do
         if [[ "{{ .dir }}" = "$HOME" ]]; then
           _print_lib asdf  "installing $plugin $version"
           asdf install $plugin $version
-          _ok
+          _print_ok
         else
           _print_lib asdf  "This project requires $plugin $version"
           _prompt -p "Install? [Y|n] " -d "Y" response
@@ -52,12 +51,14 @@ while IFS= read -r line; do
             _print_lib asdf  "installing $plugin $version"
             asdf install $plugin $version
 
+            echo
             if [ $? -eq 0 ]; then
               _print_ok "Success!"
             else
               _print_error "Something went wrong"
             fi
           else
+            echo
             _print_skipping
           fi
         fi
@@ -67,20 +68,19 @@ while IFS= read -r line; do
           [[ "$(command -v dev)" = "dev" ]] && dev
         fi
       else
-        _print_warning "No compatible version found for $plugin $version"
+        _print_warn "No compatible version found for $plugin $version"
       fi
     else
       _print_lib asdf  "$plugin $version already installed"
     fi
 
-    # Install bundler version in Gemfile.lock
+    # # Install bundler version in Gemfile.lock
     # if [[ "$plugin" = "ruby" && -f "$PWD/Gemfile.lock" ]]; then
-    #   output=$(bundle doctor 2>&1)
-    #   symver=$(echo "$output" | grep -Eo "\`gem install bundler:(.*)\`" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-    #   if [[ -n "$symver" && $(gem info -i -v ${symver} bundler) = 'false' ]]; then
+    #   symver="$(grep -A 1 "BUNDLED WITH" $PWD/Gemfile.lock | tail -n 1 | awk '{$1=$1};1')"
+    #   if [[ -n "$symver" && $(asdf exec gem info -i -v ${symver} bundler) = 'false' ]]; then
     #     echo
     #     _print_installing "bundler v$symver"
-    #     result=$(asdf exec gem install bundler:${symver})
+    #     result=$(asdf exec gem install bundler -v ${symver})
     #     _print_ok "$result"
     #   fi
     # fi

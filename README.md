@@ -1,15 +1,14 @@
 # Dotfiles
 
-Maintained with [chezmoi](https://www.chezmoi.io/).
+Maintained with https://chezmoi.io
 
-## Bootstrap Machine
+## Prerequisites on OS X
 
-- install [homebrew](https://brew.sh)
-- add `brew` to `$PATH` (see output from 👆)
-- install `chezmoi`
+1. OS X `command-line-tools` installed (or a full `XCode` installation)
+2. `git` installed and a GitHub account.
 
-### Reset State
+# Installation
 
-```bash
-chezmoi state reset
+```sh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin init --apply sporkd
 ```

@@ -1,7 +1,7 @@
 #! /usr/bin/env zsh
 
-{{ template "load_zfunctions.zsh" }}
-_printers
+{{ template "printers.zsh" }}
+
 _print_running_script "$0"
 
 set +euo pipefail
@@ -16,6 +16,12 @@ fi
 curl -fsS https://pkgx.sh | sh
 pkgx --sync
 
+if ! command -v pkgx &> /dev/null; then
+  _print_error "pkgx not installed"
+  exit 1
+fi
+
+# run shellcode if not integrated
 if [[ "$(command -v pkgx)" != "pkgx" ]]; then
   source <(pkgx --shellcode)
 fi

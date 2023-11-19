@@ -21,6 +21,14 @@
 {{-   $email = promptString "Your email" -}}
 {{- end -}}
 
+{{- /* git_email */ -}}
+{{- $git_email := $email -}}
+{{- if hasKey . "git_email" -}}
+{{-   $git_email = .git_email -}}
+{{- else if $interactive -}}
+{{-   $git_email = promptString "Your email (for git commits)" $git_email -}}
+{{- end -}}
+
 {{- /* github_user */ -}}
 {{- $github_user := "" -}}
 {{- if hasKey . "github_user" -}}
@@ -29,17 +37,9 @@
 {{-   $github_user = promptString "Your github username" -}}
 {{- end -}}
 
-{{- /* git_email */ -}}
-{{- $git_email := $email -}}
-{{- if hasKey . "git_email" -}}
-{{-   $git_email = .git_email -}}
-{{- else if $interactive -}}
-{{-   $git_email = promptString "Your email for git commits" $git_email -}}
-{{- end -}}
-
 {{- /* editor */ -}}
 {{- $choices := list "code" "emacs" "nvim" "zed" "other" -}}
-{{- $editor := "nvim" -}}
+{{- $editor := "zed" -}}
 {{- if hasKey . "editor" -}}
 {{-   $editor = .editor -}}
 {{- else if $interactive -}}
@@ -69,14 +69,6 @@
 {{-   $vim_mode = promptBool "Use VIM mode in vscode" $vim_mode -}}
 {{- end -}}
 
-{{- /* use_flutter */ -}}
-{{- $use_flutter := false -}}
-{{- if hasKey . "use_flutter" -}}
-{{-   $use_flutter = .use_flutter -}}
-{{- else if $interactive -}}
-{{-   $use_flutter = promptBool "Flutter dev environment" $use_flutter -}}
-{{- end -}}
-
 {{- /* homebrew_prefix */ -}}
 {{- $homebrew_prefix := "" -}}
 {{- if eq .chezmoi.os "linux" -}}
@@ -96,7 +88,6 @@
   github_user = "{{ $github_user }}"
   editor = "{{ $editor }}"
   visual = "{{ $visual }}"
-  use_flutter = "{{ $use_flutter }}"
   homebrew_prefix = "{{ $homebrew_prefix }}"
   [data.vscode]
     vim_mode = "{{ $vim_mode }}"

@@ -1,12 +1,23 @@
 #! /usr/bin/env zsh
 
-{{ template "load_zfunctions.zsh" }}
-_printers
+{{ template "printers.zsh" }}
+
 _print_running_script "$0"
 
 set -euo pipefail
 
 ## Gemfile: {{ include "Gemfile.tmpl" | sha256sum }}
+
+if ! command -v brew &> /dev/null; then
+  eval "$({{ .homebrew_prefix }}/bin/brew shellenv)"
+fi
+
+if [ -f "{{ .homebrew_prefix }}/opt/asdf/libexec/asdf.sh" ]; then
+  source {{ .homebrew_prefix }}/opt/asdf/libexec/asdf.sh
+else
+  _print_error "asdf not found"
+  exit 1
+fi
 
 # Install default gems
 asdf exec bundle -v &> /dev/null

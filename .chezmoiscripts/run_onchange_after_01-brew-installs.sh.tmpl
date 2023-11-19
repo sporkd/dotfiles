@@ -1,7 +1,8 @@
 #! /usr/bin/env zsh
 
-{{ template "load_zfunctions.zsh" }}
-_printers
+{{ template "printers.zsh" }}
+{{ template "keep_in_dock.zsh" }}
+
 _print_running_script "$0"
 
 set +euo pipefail
@@ -13,6 +14,11 @@ if [ ! -x "{{ .homebrew_prefix }}/bin/brew" ]; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
   _print_exists "homebrew"
+fi
+
+if [ ! -x "{{ .homebrew_prefix }}/bin/brew" ]; then
+  _print_error "homebrew not installed"
+  exit 1
 fi
 
 if ! command -v brew &> /dev/null; then
@@ -30,3 +36,9 @@ brew bundle --file="$HOME/Brewfile"
 echo
 _print_lib homebrew "removing unused dependencies..."
 brew autoremove
+
+keep_in_dock "Figma"
+keep_in_dock "Postman"
+keep_in_dock "Visual Studio Code"
+keep_in_dock "Zed"
+killall Dock &> /dev/null
