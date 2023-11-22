@@ -50,14 +50,6 @@ source "{{ .homebrew_prefix }}/etc/profile.d/z.sh"
 # java
 export JAVA_HOME="$HOME/.local"
 
-# ruby
-# export GEM_HOME="$HOME/.gem"
-# path[1,0]="$HOME/.gem/bin"
-
-# node
-# export NPM_CONFIG_PREFIX="$HOME/.node_modules"
-# path[1,0]="$HOME/.node_modules/bin"
-
 # asdf
 if [ -f "{{ .homebrew_prefix }}/opt/asdf/libexec/asdf.sh" ]; then
   source "{{ .homebrew_prefix }}/opt/asdf/libexec/asdf.sh"
@@ -67,6 +59,7 @@ fi
 # pkgx
 if command -v pkgx &> /dev/null; then
   source <(pkgx --shellcode)
+  source "$HOME/.config/pkgx/hooks.zsh"
 fi
 
 # direnv (until pkgx env feature is fixed)
@@ -75,6 +68,12 @@ if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
+# TODO: use pkgx postgres instead
+if [ -d "{{ .homebrew_prefix }}/opt/postgresql@15/bin" ]; then
+  path[1,0]="{{ .homebrew_prefix }}/opt/postgresql@15/bin"
+fi
+
+# user paths
 path[1,0]="/usr/local/bin"
 path[1,0]="$HOME/.local/bin"
 path[1,0]="$HOME/bin"
@@ -97,8 +96,10 @@ fi
 export STARSHIP_LOG="error" # silence timeout warnings
 eval "$(starship init zsh)"
 
+{{ if eq .editor "nvim" }}
 # use nvim for man
 export MANPAGER="nvim +Man!"
+{{ end }}
 
 # neovim
 alias vi=nvim
@@ -106,9 +107,10 @@ alias vim=nvim
 alias tree='et'
 
 # ls
-alias la="lsd -la"
-alias ll="lsd -1"
 alias ls="lsd -1"
+alias ll="lsd -1"
+alias la="lsd -la"
+alias lh="lsd -1ad .*"  # list only hidden files
 
 # ranger
 alias ranger="VISUAL=$EDITOR ranger"
@@ -122,6 +124,9 @@ alias weather='curl wttr.in'
 
 # password
 alias passgen='dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 | rev | cut -b 2- | rev'
+
+# diff
+alias diff="diff --color=always --suppress-common-lines"
 
 if [[ -o login ]]; then
   source ~/.config/zsh/login_checks
