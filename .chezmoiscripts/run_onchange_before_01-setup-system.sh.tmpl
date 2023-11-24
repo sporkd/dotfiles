@@ -12,17 +12,5 @@ set -euo pipefail
 _print_installing "kitty"
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
-if [[ "$TERM" != xterm-kitty ]]; then
-  if command -v kitty &> /dev/null; then
-    echo
-    _print_prog kitty "Continue in kitty terminal by running ${FG_YELLOW}chezmoi apply${RESET}"
-    echo
-    _prompt -p "Continue in kitty? [Y|n] " -d "Y" resp
-    if [[ $resp =~ ^(y|yes|Y) ]]; then
-      kitty -1 --hold & disown
-    fi
-  fi
-fi
-
 echo
 _print_ok
