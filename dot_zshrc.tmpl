@@ -52,22 +52,10 @@ source "{{ .homebrew_prefix }}/etc/profile.d/z.sh"
 # java
 export JAVA_HOME="$HOME/.local"
 
-# asdf
-if [ -f "{{ .homebrew_prefix }}/opt/asdf/libexec/asdf.sh" ]; then
-  source "{{ .homebrew_prefix }}/opt/asdf/libexec/asdf.sh"
-  source "$HOME/.config/asdf/hooks.zsh"
-fi
-
 # pkgx
 if command -v pkgx &> /dev/null; then
   source <(pkgx --shellcode)
   source "$HOME/.config/pkgx/hooks.zsh"
-fi
-
-# direnv (until pkgx env feature is fixed)
-if command -v direnv &> /dev/null; then
-  export DIRENV_LOG_FORMAT=""
-  eval "$(direnv hook zsh)"
 fi
 
 # TODO: use pkgx postgres instead
@@ -79,6 +67,9 @@ fi
 path[1,0]="/usr/local/bin"
 path[1,0]="$HOME/.local/bin"
 path[1,0]="$HOME/bin"
+
+# Fix rubygems
+export GEM_HOME=$(pkgx ruby -e 'puts Gem.user_dir')
 
 # fzf
 source $HOME/.config/fzf/key-bindings.zsh
