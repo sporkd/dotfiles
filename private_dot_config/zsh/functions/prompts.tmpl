@@ -1,15 +1,6 @@
 #!/usr/bin/env zsh
 
-_printers
-
 function prompts() {
-  if [[ "$TERM" != xterm-kitty ]]; then
-    echo
-    _print_error "This script requires Kitty terminal🐱"
-    {{ template "prompt_kitty.zsh" . }}
-    return
-  fi
-
   declare -A choices
   local keys=()
   local options=()
@@ -72,13 +63,12 @@ function prompts() {
   key=$(printf %s "$resp" | jq -r '.response')
   choice=${choices[$key]}
 
-  local config_home="{{ .chezmoi.homeDir }}/.config"
-  if [[ "$choice" = "default" ]]; then
-    export STARSHIP_CONFIG="$config_home/starship.toml"
-    rm -f "$config_home/hooks/starship.toml"
+  if [ "$choice" = "default" ]; then
+    rm -f "{{ .chezmoi.homeDir }}/.config/hooks/starship.toml"
+    export STARSHIP_CONFIG="$HOME/.config/starship.toml"
   else
-    starship preset $choice -o "$config_home/hooks/starship.toml"
-    export STARSHIP_CONFIG="$config_home/hooks/starship.toml"
+    starship preset $choice -o "{{ .chezmoi.homeDir }}/.config/hooks/starship.toml"
+    export STARSHIP_CONFIG="$HOME/.config/hooks/starship.toml"
   fi
 
   eval "$(starship init zsh)" &> /dev/null

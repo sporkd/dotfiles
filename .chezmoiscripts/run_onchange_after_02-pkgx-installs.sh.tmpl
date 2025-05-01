@@ -6,25 +6,19 @@ _print_running_script "$0"
 
 set +euo pipefail
 
-
 echo
 if [ -x /usr/local/bin/pkgx ]; then
   _print_updating "pkgx"
 else
   _print_installing "pkgx"
 fi
-curl -fsS https://pkgx.sh | sh
+
+curl -LSsf https://github.com/pkgxdev/pkgx/releases/download/v1.5.0/pkgx-1.5.0+darwin+aarch64.tar.xz | sudo tar xz -C /usr/local/bin
 pkgx --sync
 
-if type _pkgx_dev_off > /dev/null 2>&1; then
-  pkgx unload
-fi
-
-if ! command -v pkgx &> /dev/null; then
-  echo
-  _print_error "pkgx not installed"
-  exit 1
-fi
+echo
+_print_info "using $(pkgx --version)"
+# pkgx unload
 
 # Remove binstubs not installed by pkgx
 if [ -d "$HOME/.local/bin" ];then
@@ -61,15 +55,18 @@ echo
 _print_prog pkgx "installing pnpm.io@latest"
 pkgx install pnpm.io@latest
 
-# Uninstall to ensure latest versions
-pkgx unintall ruby-lang.org
+# We want our global ruby and rubygems to be the
+# latest, so uninstall any existing versions
+pkgx uninstall ruby-lang.org
 rm -rf "$HOME/.pkgx/ruby-lang.org"
-pkgx unintall rubygems.org
+pkgx uninstall rubygems.org
 rm -rf "$HOME/.pkgx/rubygems.org"
 
 echo
 _print_prog pkgx "installing ruby-lang.org@latest"
 pkgx install ruby-lang.org@latest
+pkgx ruby -v
+
 
 echo
 if [ -f "/usr/local/bin/bundler" ]; then
@@ -78,7 +75,6 @@ fi
 if [ -f "/usr/local/bin/bundle" ]; then
   sudo -p "OSX password for %p:" rm -f /usr/local/bin/bundle
 fi
-rm -f "$HOME/.local/bin/gem" "$HOME/.local/bin/bundler"
 _print_prog pkgx "installing rubygems.org@latest"
 pkgx install rubygems.org@latest
 

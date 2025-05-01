@@ -6,7 +6,7 @@ _print_running_script "$0"
 
 set -euo pipefail
 
-# kitty current-theme.conf
+# kitty hooks
 if [ ! -f "$HOME/.config/kitty/current-theme.conf" ]; then
   _print_info "copying default kitty theme to current-theme.conf"
   cp "{{ .chezmoi.homeDir }}/.config/kitty/themes/Dotfiles Default.conf" "{{ .chezmoi.homeDir }}/.config/kitty/current-theme.conf"

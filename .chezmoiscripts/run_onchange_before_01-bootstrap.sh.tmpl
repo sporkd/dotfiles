@@ -30,7 +30,7 @@ curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
 
 {{ if eq .chezmoi.os "darwin" }}
   # Keep kitty in dock
-  keep-in-dock "kitty"
+  keep_in_dock "kitty"
   killall Dock &> /dev/null
 {{ end }}
 
