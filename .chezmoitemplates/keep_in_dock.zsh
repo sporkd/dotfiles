@@ -1,4 +1,4 @@
-function keep_in_dock() {
+function keep-in-dock() {
   local app="$1"
   if [ -n "$app" ]; then
     local search="Applications/$(echo "$app" | sed 's/ /%20/g').app"
@@ -14,3 +14,4 @@ function keep_in_dock() {
     exit -1
   fi
 }
+

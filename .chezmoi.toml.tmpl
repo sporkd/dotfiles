@@ -34,7 +34,7 @@
 {{- if hasKey . "github_user" -}}
 {{-   $github_user = .github_user -}}
 {{- else if $interactive -}}
-{{-   $github_user = promptString "Your github username" -}}
+{{-   $github_user = promptString "Your github username (CASE SENSITIVE!)" -}}
 {{- end -}}
 
 {{- /* editor */ -}}
@@ -78,10 +78,10 @@
 {{- if eq .chezmoi.os "linux" -}}
 {{-   $homebrew_prefix = "/home/linuxbrew/.linuxbrew" -}}
 {{- else if eq .chezmoi.os "darwin" -}}
-{{-   if eq .chezmoi.arch "x86_64" -}}
-{{-     $homebrew_prefix = "/usr/local" -}}
-{{-   else -}}
+{{-   if eq .chezmoi.arch "arm64" -}}
 {{-     $homebrew_prefix = "/opt/homebrew" -}}
+{{-   else -}}
+{{-     $homebrew_prefix = "/usr/local" -}}
 {{-   end -}}
 {{- end -}}
 

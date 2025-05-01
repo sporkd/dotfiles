@@ -1,0 +1,16 @@
+#! /usr/bin/env zsh
+
+{{ template "printers.zsh" }}
+
+_print_running_script "$0"
+
+set -euo pipefail
+
+# kitty current-theme.conf
+if [ ! -f "$HOME/.config/kitty/current-theme.conf" ]; then
+  _print_info "copying default kitty theme to current-theme.conf"
+  cp "{{ .chezmoi.homeDir }}/.config/kitty/themes/Dotfiles Default.conf" "{{ .chezmoi.homeDir }}/.config/kitty/current-theme.conf"
+fi
+
+echo
+_print_ok

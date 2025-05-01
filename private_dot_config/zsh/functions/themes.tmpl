@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+
+_printers
+
+function themes() {
+  if [[ "$TERM" != xterm-kitty ]]; then
+    echo
+    _print_error "This script requires Kitty terminal🐱"
+    {{ template "prompt_kitty.zsh" . }}
+    return
+  fi
+
+  kitten themes
+
+  sleep 1
+
+  {{ if eq .chezmoi.os "darwin" -}}
+    kill -sigUsr1 $KITTY_PID > /dev/null
+  {{- else if eq .chezmoi.os "linux" }}
+    kill -SIGUSR1 $KITTY_PID > /dev/null
+  {{- end }}
+}
+themes "$@"
