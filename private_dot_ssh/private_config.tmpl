@@ -11,7 +11,14 @@ Host *
   # SetEnv TERM=xterm
 
 Host github.com
-  hostname github.com
+  HostName github.com
   IdentitiesOnly yes
-  IdentityFile ~/.ssh/{{ .github_user }}_ed25519
-  User {{ .github_user }}
+  IdentityFile ~/.ssh/sporkd_ed25519
+  User sporkd
+
+Host hub.openingdesign.com
+  HostName hub.openingdesign.com
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/sporkd_ed25519
+  User peter
+
