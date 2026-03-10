@@ -10,19 +10,24 @@ set +euo pipefail
 local backup_dir=".dotfilebackups"
 local backup_file="dotfiles_$(date +%Y%m%d_%H%M%S%Z).tar.gz"
 local managed="
+.asdf
 .asdfrc
 .bashrc
 .bundle
+.cargo
 .config/Code
 .config/asdf
 .config/cbfmt
+.config/fish
 .config/fzf
 .config/gh
 .config/iterm2/AppSupport
 .config/kitty
 .config/mise
+.config/markdownlint
 .config/nvim
 .config/pgcli
+.config/pkgx
 .config/ranger
 .config/ripgrep
 .config/starship.toml
@@ -31,23 +36,10 @@ local managed="
 .config/zed
 .config/zsh
 .ctags
+.default-gems
+.gem
 .gitconfig
 .irbrc
-.ssh/config
-.tool-versions
-.zlogin
-.zshrc
-Brewfile
-Brewfile.lock.json
-Gemfile
-Gemfile.lock
-Library/Application Support/Code/User/settings.json
-.asdf
-.default-gems
-.pkgx
-.gem
-.rbenv
-.rvmrc
 .local/bin
 .local/share/mise
 .local/state/mise
@@ -56,7 +48,21 @@ Library/Application Support/Code/User/settings.json
 .local/share/man
 .local/share/nvim
 .local/state/nvim
-.local/state/nvim
+.pkgx
+.rustup
+.rbenv
+.rvmrc
+.ssh/config
+.tool-versions
+.viminfo
+.vscode
+.zlogin
+.zshrc
+Brewfile
+Brewfile.lock.json
+Gemfile
+Gemfile.lock
+Library/Application Support/Code/User/settings.json
 "
 
 cd "{{ .chezmoi.homeDir }}"
