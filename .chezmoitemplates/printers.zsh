@@ -17,11 +17,11 @@ function _print_checking() {
 }
 
 function _print_installing() {
-  echo -e "${FG_BLUE}[installing]${RESET} $1..."
+  echo -e "${FG_BLUE}[installing]${RESET} $1"
 }
 
 function _print_updating() {
-  echo -e "${FG_BLUE}[updating]${RESET} $1..."
+  echo -e "${FG_BLUE}[updating]${RESET} $1"
 }
 
 function _print_running() {

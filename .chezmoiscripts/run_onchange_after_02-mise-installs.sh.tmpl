@@ -1,0 +1,39 @@
+#! /usr/bin/env zsh
+
+{{ template "printers.zsh" }}
+{{ template "prompt_sudo.zsh" }}
+
+_print_running_script "$0"
+
+set -euo pipefail
+
+## config.toml: {{ include "private_dot_config/mise/config.toml" | sha256sum }}
+
+echo
+if (( $+commands[mise] )); then
+  _print_updating "mise"
+  mise self-update
+else
+  _print_installing "mise"
+  _prompt_sudo
+  curl https://mise.run | sudo MISE_INSTALL_PATH=/usr/local/bin/mise sh
+fi
+
+echo
+mise --version
+echo
+
+cd $HOME
+
+echo
+_print_prog mise "install"
+mise install --verbose
+
+echo
+_print_prog mise "prune"
+mise prune --yes
+
+cd -
+
+echo
+_print_ok

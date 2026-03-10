@@ -1,0 +1,42 @@
+[tools]
+# --- Core Languages ---
+java = "latest"
+node = "lts"
+python = "latest"
+# ruby = { version = "latest", env = { GEM_HOME = "{{env.HOME}}/.gems/ruby/{{ruby_version}}", BUNDLE_PATH = "{{env.HOME}}/.gems/ruby/{{ruby_version}}" }}
+ruby = { version = "latest", postinstall = "mise run gem-upgrade" }
+rust = "stable"
+
+# --- Core CLI Tools ---
+fzf = "latest"
+kubectl = "latest"   # kubernetes-cli
+neovim = "latest"
+
+# --- Other CLI Tools ---
+ast-grep = "latest"
+aws-cli = { version = "latest", symlink_bins = true }
+docker-cli = "latest"
+kubectx = "latest"
+markdownlint-cli2 = { version = "latest", symlink_bins = true }
+stern = "latest"
+tree-sitter = "latest"
+
+[settings]
+experimental = true
+ruby.compile = false
+disable_backends = ["asdf"]
+
+[env]
+# "_.path" = "{{env.HOME}}/.gems/ruby/{{ ruby_version | default(value='latest') }}/bin"
+
+[tasks.default]
+description = 'Reinstall from latest global mise configs'
+dir = "{{env.HOME}}"
+run = [
+  'mise install --verbose',
+  'mise prune --yes'
+]
+
+[tasks.gem-upgrade]
+description = "Upgrade RubyGems version"
+run = 'ruby -S gem update --system'

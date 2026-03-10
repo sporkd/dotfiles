@@ -11,7 +11,7 @@ function keep_in_dock() {
     fi
   else
     _print_error "missing argument: app"
-    exit -1
+    exit 1
   fi
 }
 

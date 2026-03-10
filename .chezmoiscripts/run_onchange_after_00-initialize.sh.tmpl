@@ -1,6 +1,7 @@
 #! /usr/bin/env zsh
 
 {{ template "printers.zsh" }}
+{{ template "prompt_sudo.zsh" }}
 
 _print_running_script "$0"
 
@@ -14,7 +15,8 @@ set -euo pipefail
   if [ -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk ]; then
     if [ ! -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users ]; then
       _print_symlinking "/Users" "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users"
-      sudo -p "OSX password for %p:" ln -s /Users /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users
+      _prompt_sudo
+      sudo ln -s /Users /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Users
     fi
   fi
 

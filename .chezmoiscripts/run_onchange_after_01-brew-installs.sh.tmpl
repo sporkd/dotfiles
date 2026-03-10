@@ -1,6 +1,7 @@
 #! /usr/bin/env zsh
 
 {{ template "printers.zsh" }}
+{{ template "prompt_sudo.zsh" }}
 {{ template "keep_in_dock.zsh" }}
 
 _print_running_script "$0"
@@ -11,6 +12,7 @@ set +euo pipefail
 
 if [ ! -x "{{ .homebrew_prefix }}/bin/brew" ]; then
   _print_installing "homebrew"
+  _prompt_sudo
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
   _print_exists "homebrew"
@@ -26,7 +28,7 @@ if ! command -v brew &> /dev/null; then
 fi
 
 echo
-_print_prog homebrew "updating..."
+_print_prog brew "update"
 brew update
 
 # Remove old fonts
@@ -38,7 +40,8 @@ if [ -d "/Applications/Visual Studio Code.app" ]; then
     echo
     _print_info "Removing non-homebrew vscode app"
     osascript -e 'quit app "Visual Studio Code"'
-    sudo -p "OSX password for %p:" rm -rf "/Applications/Visual Studio Code.app"
+    _prompt_sudo
+    sudo rm -rf "/Applications/Visual Studio Code.app"
     if [ $? -ne 0 ]; then
       _print_error "Could not remove 'Visual Studio Code' app."
       _print_info "Try removing manually or run this script again."
@@ -51,17 +54,18 @@ fi
 if [ -L "/usr/local/bin/code" ]; then
   echo
   _print_info "Removing non-homebrew VSCode symlink"
-  sudo -p "OSX password for %p:" rm -f "/usr/local/bin/code"
+  _prompt_sudo
+  sudo rm -f "/usr/local/bin/code"
 fi
 
 echo
-_print_prog homebrew "bundling..."
+_print_prog brew "bundle"
 brew bundle --file="$HOME/Brewfile"
 
 echo
-_print_prog homebrew "removing unused dependencies..."
+_print_prog brew "removing unused dependencies..."
 brew autoremove
-# brew cleanup
+# brew bundle cleanup --global --force
 
 echo
 keep_in_dock "Figma"
