@@ -1,13 +1,23 @@
 #!/usr/bin/env zsh
 
 # Check dotfile repo for updates every 4 days
-ts=$(stat -f '%m' "{{ .chezmoi.sourceDir }}/.git/FETCH_HEAD")
+fetch_head="{{ .chezmoi.sourceDir }}/.git/FETCH_HEAD"
+
+# 1. Get timestamp: Use the file if it exists, otherwise use 0 (so it triggers a fetch)
+# 2>/dev/null silences the error on fresh installs
+ts=$(stat -f '%m' "$fetch_head" 2>/dev/null || echo 0)
+
+# Check if file is older than 4 days OR doesn't exist (ts=0)
 if [ "$ts" -lt "$(date -v-4d +%s)" ]; then
-  git -C "{{ .chezmoi.sourceDir }}" fetch 2> /dev/null
-  git_status=$(git -C "{{ .chezmoi.sourceDir }}" status)
-  if [[ "$git_status" =~ (Your branch is behind) ]]; then
-    FG_CYAN=$(tput setaf 6)
-    RESET=$(tput sgr0)
-    echo -e "\nNew dotfile updates available😎! Run ${FG_CYAN}chezmoi update${RESET} to get them."
+  # Only attempt fetch if the directory is actually a git repo
+  if [ -d "{{ .chezmoi.sourceDir }}/.git" ]; then
+    git -C "{{ .chezmoi.sourceDir }}" fetch 2> /dev/null
+
+    # Check status for "behind" message
+    if git -C "{{ .chezmoi.sourceDir }}" status -sb 2>/dev/null | grep -q "behind"; then
+      FG_CYAN=$(tput setaf 6)
+      RESET=$(tput sgr0)
+      echo -e "\nNew dotfile updates available 😎! Run ${FG_CYAN}chezmoi update${RESET} to get them."
+    fi
   fi
 fi

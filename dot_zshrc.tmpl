@@ -51,42 +51,34 @@ path[1,0]="/usr/local/bin"
 
 path[1,0]="$HOME/.local/bin"
 path[1,0]="$HOME/bin"
+path=(${path:#})
 
-# homebrew
+# Homebrew
 if (( $+commands[brew] )); then
   eval "$({{ .homebrew_prefix }}/bin/brew shellenv)"
 fi
 
-# Activate Mise (must be at the top)
-# if command -v mise > /dev/null; then
+# Mise
 if (( $+commands[mise] )); then
   eval "$(mise activate zsh)"
 fi
 
-# ruby
-# export GEM_HOME="$(ruby -r rubygems -e 'puts Gem.user_dir')"
-# [[ -n "$GEM_HOME" ]] && path[1,0]="$GEM_HOME/bin"
-
-# Initialize Zoxide (Replaces 'z')
-# if command -v zoxide > /dev/null; then
+# Zoxide (replaces z)
 if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh)"
 fi
 
-# Initialize Starship
-if [ -f "$HOME/.config/hooks/starship.toml" ]; then
-  # hook to override default ~/.config/starship.toml
-  export STARSHIP_CONFIG="$HOME/.config/hooks/starship.toml"
-fi
-if command -v starship > /dev/null; then
+# Starship
+if (( $+commands[starship] )); then
+  if [ -f "$HOME/.config/hooks/starship.toml" ]; then
+    # hook to override default ~/.config/starship.toml
+    export STARSHIP_CONFIG="$HOME/.config/hooks/starship.toml"
+  fi
   export STARSHIP_LOG="error" # silence timeout warnings
   eval "$(starship init zsh)"
 fi
 
-# Load Mise-Managed Zsh Plugins (Hardcoded paths for speed)
-local MISE_INSTALLS="${HOME}/.local/share/mise/installs"
-
-# Fishy autosuggestions in zsh
+# Fishy ZSH
 source "{{ .homebrew_prefix }}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "{{ .homebrew_prefix }}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "{{ .homebrew_prefix }}/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
@@ -103,15 +95,19 @@ export MANPAGER="nvim +Man!"  # use nvim for man
 
 # Aliases
 # vim
-alias vi=nvim
-alias vim=nvim
-alias tree='et'
+if (( $+commands[nvim] )); then
+  alias vi=nvim
+  alias vim=nvim
+  alias tree='et'
+fi
 
 # lsd
-alias ls="lsd -1"
-alias ll="lsd -1"
-alias la="lsd -la"
-alias lh="lsd -1ad .*"  # list only hidden files
+if (( $+commands[lsd] )); then
+  alias ls="lsd -1"
+  alias ll="lsd -1"
+  alias la="lsd -la"
+  alias lh="lsd -1ad .*"  # list only hidden files
+fi
 
 # other
 alias diff="diff --color=always --suppress-common-lines"
@@ -119,7 +115,7 @@ alias ranger="VISUAL=$EDITOR ranger"
 alias icat='kitty +kitten icat'
 alias uuid="uuidgen | tr -d '\\n' | tr '[:upper:]' '[:lower:]' | pbcopy; pbpaste; echo"
 alias weather='curl wttr.in'
-alias passgen='dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 | rev | cut -b 2- | rev'
+alias genpass='dd if=/dev/urandom bs=1 count=18 2>/dev/null | base64 | rev | cut -b 2- | rev'
 
 if [[ -o login ]]; then
   source "$HOME/.config/zsh/login_checks"

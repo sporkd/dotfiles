@@ -1,0 +1,7 @@
+
+# Settings
+ignored_config_paths = [
+  "~/.local/share/chezmoi",
+  "~/.local/share/chezmoi/private_dot_config/*",
+  "~/.local/share/chezmoi/private_dot_config/**",
+]

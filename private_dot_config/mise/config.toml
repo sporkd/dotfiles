@@ -1,42 +1,75 @@
+[vars]
+  RUBY_VERSION = "4.0.1"
+
 [tools]
-# --- Core Languages ---
-java = "latest"
-node = "lts"
-python = "latest"
-# ruby = { version = "latest", env = { GEM_HOME = "{{env.HOME}}/.gems/ruby/{{ruby_version}}", BUNDLE_PATH = "{{env.HOME}}/.gems/ruby/{{ruby_version}}" }}
-ruby = { version = "latest", postinstall = "mise run gem-upgrade" }
-rust = "stable"
+  fzf = "latest"
+  kubectl = "latest"   # kubernetes-cli
+  neovim = "latest"
 
-# --- Core CLI Tools ---
-fzf = "latest"
-kubectl = "latest"   # kubernetes-cli
-neovim = "latest"
+  # --- Aqua ---
+  ast-grep = "latest"
+  aws-cli = { version = "latest", symlink_bins = true }
+  docker-cli = "latest"
+  kubectx = "latest"
+  markdownlint-cli2 = { version = "latest", symlink_bins = true }
+  stern = "latest"
+  tree-sitter = "latest"
 
-# --- Other CLI Tools ---
-ast-grep = "latest"
-aws-cli = { version = "latest", symlink_bins = true }
-docker-cli = "latest"
-kubectx = "latest"
-markdownlint-cli2 = { version = "latest", symlink_bins = true }
-stern = "latest"
-tree-sitter = "latest"
+[tools.java]
+  version = "latest"
+[tools.node]
+  version = "lts"
+[tools.python]
+  version = "latest"
+[tools.ruby]
+  version = "{{ vars.RUBY_VERSION }}"
+# [tools.rust]
+#   version = "stable"
 
-[settings]
-experimental = true
-ruby.compile = false
-disable_backends = ["asdf"]
+[tools.ruby.postinstall]
+  run = [
+    "env MISE_AUTO_INSTALL=false mise run ruby:doctor",
+    "env MISE_AUTO_INSTALL=false mise run gem:upgrade",
+  ]
 
 [env]
-# "_.path" = "{{env.HOME}}/.gems/ruby/{{ ruby_version | default(value='latest') }}/bin"
+  MISE_TOOLS = { value = "{{ tools | json_encode }}", tools = true }
+  RUBY_VERSION = "{{ vars.RUBY_VERSION }}"
+  RUBY_ABI = "{{ env.RUBY_VERSION | split(pat='.') | slice(start=0, end=2) | join(sep='.') }}.0"
+  GEM_HOME = "{{ env.HOME }}/.gem/ruby/{{ env.RUBY_ABI }}"
+  _.path = "{{ env.GEM_HOME }}/bin"
+  # _.source = { path = "{{env.HOME}}/.config/mise/env.sh" }
 
 [tasks.default]
-description = 'Reinstall from latest global mise configs'
-dir = "{{env.HOME}}"
-run = [
-  'mise install --verbose',
-  'mise prune --yes'
-]
+  description = 'Reinstall from latest global mise configs'
+  dir = "{{env.HOME}}"
+  run = [
+    'mise install --verbose',
+    'mise prune --yes'
+  ]
 
-[tasks.gem-upgrade]
-description = "Upgrade RubyGems version"
-run = 'ruby -S gem update --system'
+# [hooks.enter]
+#   shell = "zsh"
+#   script = "source {{env.HOME}}/.config/mise/hooks/enter.zsh"
+
+[settings]
+  auto_install = true
+  disable_backends = ["asdf"]
+  # exec_auto_install = true
+  experimental = true
+  not_found_auto_install = true
+  env_shell_expand = true
+
+  trusted_config_paths = [
+    "~/mise.toml",
+    "~/projects"
+  ]
+
+  ruby.compile = false
+
+  # status displayed when entering project dirs
+  status = {
+    missing_tools = "if_other_versions_installed",
+    show_env = false,
+    show_tools = false
+  }

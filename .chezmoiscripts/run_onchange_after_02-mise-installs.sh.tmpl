@@ -9,19 +9,30 @@ set -euo pipefail
 
 ## config.toml: {{ include "private_dot_config/mise/config.toml" | sha256sum }}
 
-echo
 if (( $+commands[mise] )); then
-  _print_updating "mise"
-  mise self-update
+  # local version_info=$(mise version --check --json)
+  local version_info=$(mise version --json)
+  local current=$(echo "$version_info" | jq -r '.version' | awk '{print $1}')
+  local latest=$(echo "$version_info" | jq -r '.latest')
+
+  if [ "$current" != "$latest" ]; then
+    echo
+    _print_updating "mise"
+    sudo mise self-update
+  fi
 else
+  echo
   _print_installing "mise"
   _prompt_sudo
   curl https://mise.run | sudo MISE_INSTALL_PATH=/usr/local/bin/mise sh
 fi
 
-echo
 mise --version
 echo
+
+# echo
+# _print_running "mise trust"
+# mise trust "$HOME/.config"
 
 cd $HOME
 
@@ -29,9 +40,9 @@ echo
 _print_prog mise "install"
 mise install --verbose
 
-echo
-_print_prog mise "prune"
-mise prune --yes
+# echo
+# _print_prog mise "prune"
+# mise prune --yes
 
 cd -
 

@@ -1,0 +1,36 @@
+[tasks."ruby:doctor"]
+  description = "Check Ruby and RubyGems configuration"
+  dir="{{cwd}}"
+  quiet = true
+  run = """
+    #!/usr/bin/env zsh
+
+    INSTALLED=$(echo $MISE_TOOLS | jq -r '.ruby.version // "none"')
+    if [ "$INSTALLED" = "none" ]; then
+      echo "❌ Missing ruby!"
+      mise ls --ruby
+      exit 1
+    fi
+
+    if [ "$INSTALLED" != "$RUBY_VERSION" ]; then
+      echo "❌ Incorrect RUBY_VERSION env var set!"
+      echo "   Expected: $INSTALLED"
+      echo "   Actual: $RUBY_VERSION"
+      exit 1
+    fi
+
+    GEM_USER_DIR=$(mise exec "ruby@$RUBY_VERSION" -- ruby -r rubygems -e 'print Gem.user_dir')
+    if [ "$GEM_HOME" != "$GEM_USER_DIR" ]; then
+      echo "❌ FAILURE: GEM_HOME using wrong Ruby ABI version!"
+      echo "   Expected: $GEM_USER_DIR"
+      echo "   Actual:   $GEM_HOME"
+      exit 1
+    fi
+
+    echo "✅ No problems found"
+"""
+
+[tasks."gem:upgrade"]
+  description = "Upgrade RubyGems version"
+  dir = "{{cwd}}"
+  run = 'ruby -S gem update --system'
