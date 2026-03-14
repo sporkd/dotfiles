@@ -6,66 +6,68 @@
 
 _print_running_script "$0"
 
-set +euo pipefail
+# Zsh Best Practice: Use a specific path for brew if possible,
+# but falling back to 'brew' in PATH is more portable.
+local BREW_PATH="{{ .homebrew_prefix }}/bin/brew"
 
-## Brewfile: {{ include "Brewfile.tmpl" | sha256sum }}
-
-if [ ! -x "{{ .homebrew_prefix }}/bin/brew" ]; then
+# Install Homebrew ---
+if [[ ! -x "$BREW_PATH" ]]; then
   _print_installing "homebrew"
   _prompt_sudo
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  # Check if install actually worked
+  if [[ ! -x "$BREW_PATH" ]]; then
+    _print_error "Homebrew installation failed or binary not found at $BREW_PATH"
+    exit 1
+  fi
 else
   _print_exists "homebrew"
 fi
 
-if [ ! -x "{{ .homebrew_prefix }}/bin/brew" ]; then
-  _print_error "homebrew not installed"
-  exit 1
-fi
-
-if ! command -v brew &> /dev/null; then
-  eval "$({{ .homebrew_prefix }}/bin/brew shellenv)"
+if ! (( $+commands[brew] )); then
+  eval "$($BREW_PATH shellenv)"
 fi
 
 echo
 _print_prog brew "update"
-brew update
+brew update --quiet
 
-# Remove old fonts
-brew uninstall -f --zap font-meslo-lgs-nf font-monaco-for-powerline
-
-# Remove non-homebrew vscode
-if [ -d "/Applications/Visual Studio Code.app" ]; then
-  if ! brew ls --cask visual-studio-code --versions &> /dev/null; then
+# Remove non-homebrew VSCode app
+if [[ -d "/Applications/Visual Studio Code.app" ]]; then
+  if ! brew list --cask visual-studio-code &>/dev/null; then
     echo
-    _print_info "Removing non-homebrew vscode app"
-    osascript -e 'quit app "Visual Studio Code"'
+    _print_info "Moving Visual Studio Code to Homebrew-managed version..."
+
+    # Graceful shutdown
+    osascript -e 'quit app "Visual Studio Code"' 2>/dev/null
+
     _prompt_sudo
     sudo rm -rf "/Applications/Visual Studio Code.app"
-    if [ $? -ne 0 ]; then
-      _print_error "Could not remove 'Visual Studio Code' app."
-      _print_info "Try removing manually or run this script again."
-      echo
-      exit 1
+
+    # Surgical symlink removal
+    [[ -L "/usr/local/bin/code" ]] && sudo rm -f "/usr/local/bin/code"
+
+    if [[ $? -ne 0 ]]; then
+      _print_error "Could not remove manual VS Code install. Please remove it manually."
     fi
   fi
 fi
 
-if [ -L "/usr/local/bin/code" ]; then
-  echo
-  _print_info "Removing non-homebrew VSCode symlink"
-  _prompt_sudo
-  sudo rm -f "/usr/local/bin/code"
+echo
+if [[ ! -f "$HOME/Brewfile" ]]; then
+  _print_error "No Brewfile found at $HOME/Brewfile"
+  exit 1
 fi
 
-echo
+# Bundle
 _print_prog brew "bundle"
 brew bundle --file="$HOME/Brewfile"
 
 echo
-_print_prog brew "removing unused dependencies..."
+_print_info "cleaning up..."
 brew autoremove
-# brew bundle cleanup --global --force
 
 echo
 keep_in_dock "Figma"
