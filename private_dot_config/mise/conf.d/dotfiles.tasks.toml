@@ -2,15 +2,17 @@
   description = "Nuke your whole dotfiles installation. Clean start."
   confirm="Nuke it all. Are you sure?"
   run = """
-  mise run dotfiles-clean
+  mise run dotfiles-cleanup
   mise run dotfiles-unbrew
   mise run dotfiles-unmise
   """
 
 [tasks.dotfiles-unbrew]
   description = "Uninstall Homebrew"
-  run = '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"'
+  run = """
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+  """
 
 [tasks.dotfiles-unmise]
   description = "Uninstall Mise"
-  run = "sudo mise implode --config"
+  run = "sudo mise implode --config --yes"

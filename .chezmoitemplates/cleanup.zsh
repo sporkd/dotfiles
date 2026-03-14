@@ -26,10 +26,6 @@ Downloads
 Desktop
 $backup_dir
 .chezmoiscripts
-.config
-{{ if true -}}
-.config/mise
-{{- end }}
 .local
 .local/share
 .local/state
@@ -42,10 +38,7 @@ local forced="
 .asdfrc
 .cargo
 .gem
-{{ if false -}}
-.local/share/mise
-.local/state/mise
-{{- end }}
+.local/bin
 .local/state/gh
 .local/state/last_update_check
 .local/share/man
@@ -67,6 +60,28 @@ local forced="
 Brewfile.lock.json
 Gemfile.lock
 "
+
+if [[ "${RUN_AS_MISE:-false}" == "true" ]]; then
+  # Keep mise configs, remove chezmoi configs
+  ignored+="
+.config/mise
+.local/share/mise
+.local/state/mise
+"
+  forced+="
+.config/chezmoi
+"
+else
+  # Remove mise configs, keep chezmoi configs
+  ignored+="
+.config/chezmoi
+"
+  forced+="
+.config/mise
+.local/share/mise
+.local/state/mise
+"
+fi
 
 local collapse_child_dirs=(".config/")
 
@@ -139,8 +154,8 @@ for item in "${verified_list[@]}"; do
 done
 
 echo
-_print_danger "The above files and directories will be overwritten!"
-_print_danger "Choose ${BOLD}Yes${RESET} to backup before overwriting. Or choose ${BOLD}NO${RESET}"
+_print_danger "The above files and directories will be removed!"
+_print_danger "Choose ${BOLD}Yes${RESET} to backup before removing. Or choose ${BOLD}NO${RESET}"
 _print_danger "to skip this step if you no longer need them."
 echo
 _prompt -p "Backup now? [Y|n] " -d "Y" response
@@ -186,7 +201,7 @@ echo
 _print_info "Cleaning up home directory..."
 for item in "${verified_list[@]}"; do
   _print_running "rm -rf $item"
-  # rm -rf "$item"
+  rm -rf "$item"
 done
 
 # Final Sweep

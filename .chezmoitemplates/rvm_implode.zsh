@@ -1,6 +1,5 @@
 # Implode RVM if installed
-# if (( $+commands[rvm] )); then
-if true; then
+if (( $+commands[rvm] )); then
   echo
   _print_danger "An installation of RVM was deteced on your system which will conflict"
   _print_danger "with mise's Ruby installation. We'll run 'rvm implode' to remove it."
@@ -24,7 +23,7 @@ if true; then
   _prompt -p "Continue? [Y|n] " -d "Y" resp
   if [[ $resp =~ ^(y|yes|Y) ]]; then
     _print_running "rvm implode"
-    # rvm implode --force
+    rvm implode --force
   else
     _print_error "Aborting..."
     exit 1

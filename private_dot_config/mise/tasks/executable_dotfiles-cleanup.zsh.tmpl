@@ -1,0 +1,8 @@
+#! /usr/bin/env zsh
+#MISE description="Clean (and backup) dotfiles for reinstall"
+#MISE env={RUN_AS_MISE=true}
+
+{{ template "printers.zsh" }}
+{{ template "prompt.zsh" }}
+
+{{ template "cleanup.zsh" . }}
