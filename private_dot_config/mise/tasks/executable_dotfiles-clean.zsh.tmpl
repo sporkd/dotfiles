@@ -1,8 +1,7 @@
 #! /usr/bin/env zsh
+#MISE description="Backup and delete dotfiles for reinstall (script)"
 
 {{ template "printers.zsh" }}
 {{ template "prompt.zsh" }}
-
-_print_running_script "$0"
 
 {{ template "backup_and_clean.zsh" . }}

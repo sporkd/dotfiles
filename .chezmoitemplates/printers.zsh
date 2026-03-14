@@ -53,7 +53,7 @@ function _print_option() {
 }
 
 function _print_item() {
-  echo -e "  ${FG_GREEN}[*]${RESET} $1"
+  echo -e "  ${FG_YELLOW}[*]${RESET} $1"
 }
 
 function _print_ask() {

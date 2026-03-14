@@ -1,0 +1,15 @@
+#! /usr/bin/env zsh
+
+# ruby
+GEM_HOME="$(ruby -r rubygems -e 'puts Gem.user_dir')"
+
+if [[ -n "$GEM_HOME" ]]; then
+  mise set GEM_HOME="$GEM_HOME"
+  mise set BUNDLE_PATH="$GEM_HOME"
+# [[ -n "$GEM_HOME" ]] && path[1,0]="$GEM_HOME/bin"
+else
+  mise unset GEM_HOME
+  mise unset BUNDLE_PATH
+fi
+
+# path=(${path:#})

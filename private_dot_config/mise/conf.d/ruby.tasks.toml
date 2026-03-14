@@ -1,4 +1,4 @@
-[tasks."ruby:doctor"]
+[tasks.ruby-doctor]
   description = "Check Ruby and RubyGems configuration"
   dir="{{cwd}}"
   quiet = true
@@ -30,7 +30,7 @@
     echo "✅ No problems found"
 """
 
-[tasks."gem:upgrade"]
+[tasks.gem-upgrade]
   description = "Upgrade RubyGems version"
   dir = "{{cwd}}"
   run = 'ruby -S gem update --system'

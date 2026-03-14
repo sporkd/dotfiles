@@ -28,8 +28,8 @@
 
 [tools.ruby.postinstall]
   run = [
-    "env MISE_AUTO_INSTALL=false mise run ruby:doctor",
-    "env MISE_AUTO_INSTALL=false mise run gem:upgrade",
+    "env MISE_AUTO_INSTALL=false mise run ruby-doctor",
+    "env MISE_AUTO_INSTALL=false mise run gem-upgrade",
   ]
 
 [env]
