@@ -1,11 +1,11 @@
 [tasks.dotfiles-nuke]
   description = "Nuke your whole dotfiles installation. Clean start."
   confirm="Nuke it all. Are you sure?"
-  depends = [
-    "dotfiles-clean",
-    "dotfiles-unbrew",
-    "dotfiles-unmise",
-  ]
+  run = """
+  mise run dotfiles-clean
+  mise run dotfiles-unbrew
+  mise run dotfiles-unmise
+  """
 
 [tasks.dotfiles-unbrew]
   description = "Uninstall Homebrew"
