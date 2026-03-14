@@ -45,7 +45,7 @@ function _print_exists() {
 }
 
 function _print_cmd() {
-  echo -e "${FG_MAGENTA}[cmd]${RESET} $1"
+  echo -e "${FG_GREEN}[cmd]${RESET} $1"
 }
 
 function _print_option() {

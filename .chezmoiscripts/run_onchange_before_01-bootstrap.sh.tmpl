@@ -1,6 +1,7 @@
 #! /usr/bin/env zsh
 
 {{ template "printers.zsh" }}
+{{ template "prompt.zsh" }}
 {{ template "keep_in_dock.zsh" }}
 
 _print_running_script "$0"
@@ -9,13 +10,7 @@ echo -e "\n${FG_YELLOW}[running script]${RESET} $0\n"
 
 set -euo pipefail
 
-# remove rvm if installed
-if type rvm > /dev/null 2>&1; then
-  _print_info "An installation of RVM was deteced on your system which may conflict"
-  _print_info "with mise's Ruby installation. Follow the prompts to remove RVM"
-  _print_info "and your install will resume."
-  rvm implode
-fi
+{{ template "rvm_implode.zsh" }}
 
 # Copy .zsh_history to custom HISTFILE
 if [[ -f "{{ .chezmoi.homeDir }}/.zsh_history" && ! -f "{{ .chezmoi.homeDir }}/.zsh_history_extended" ]]; then

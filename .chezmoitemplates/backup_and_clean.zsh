@@ -2,6 +2,7 @@ set +euo pipefail
 
 cd "{{ .chezmoi.homeDir }}" || exit 1
 
+local backed_up=false
 local backup_dir="$PWD/.dotfilebackups"
 local timestamp=$(date +%Y-%m-%d_%H-%M)
 local backup_file="$backup_dir/dotfiles_$timestamp.tar.gz"
@@ -69,7 +70,7 @@ Gemfile.lock
 
 local collapse_child_dirs=(".config/")
 
-# Zsh splitting: ensures no empty strings/newlines in arrays
+# Ensures no empty strings in new arrays
 local forced=(${(f)"$(echo "${forced}" | sed '/^[[:space:]]*$/d')"})
 local ignored=(${(f)"$(echo "${ignored}" | sed '/^[[:space:]]*$/d')"})
 local managed=(${(f)"$(chezmoi managed --path-style relative 2>/dev/null)"})
@@ -82,7 +83,7 @@ for item in "${managed[@]}"; do
   local collapsed=0
   for prefix in "${collapse_child_dirs[@]}"; do
     local base="${prefix%/}"
-    # Check if item is the base (e.g. .config) or child (e.g. .config/zsh)
+    # Check if item is the base or child dir to collapse
     if [[ "$item" == "$base" ]] || [[ "$item" == "$prefix"* ]]; then
       local parts=(${(s:/:)item})
       if [[ ${#parts} -ge 2 ]]; then
@@ -102,7 +103,7 @@ generated_forcelist=(${(u)generated_forcelist[@]})
 for item in "${generated_forcelist[@]}"; do
   local skip=0
   for b in "${ignored[@]}"; do
-    # Robust check: Exact match OR item is inside the ignored directory
+    # Check exact match OR item is inside ignored directory
     if [[ "$item" == "$b" ]] || [[ "$item" == "$b/"* ]]; then
       skip=1
       break
@@ -114,7 +115,7 @@ done
 # Merge manual forced (overwrites previous ignores)
 final_list+=("${forced[@]}")
 
-# Cleanup (de-dup and verify existence)
+# Cleanup, de-dup and verify existence
 final_list=(${(u)final_list[@]})
 local verified_list=()
 for item in "${final_list[@]}"; do
@@ -167,6 +168,7 @@ if [[ $response =~ ^(y|yes|Y) ]]; then
     exit 1
   fi
 
+  backed_up=true
   _print_ok "Backup successful!"
   echo
   _print_notice "You can restore anytime by running"
@@ -178,23 +180,17 @@ else
   _print_skipping "backup"
 fi
 
-# RVM Implode
-if type rvm > /dev/null 2>&1; then
-  echo
-  _print_danger "RVM detected. It conflicts with other Rubies"
-  _print_danger "Proceeding with 'rvm implode'..."
-  # 'yes' pipes confirmation to rvm to prevent hanging
-  yes | rvm implode
-fi
+{{ template "rvm_implode.zsh" }}
 
 echo
 _print_info "Cleaning up home directory..."
 for item in "${verified_list[@]}"; do
   _print_running "rm -rf $item"
-  rm -rf "$item"
+  # rm -rf "$item"
 done
 
 # Final Sweep
+echo
 _print_info "Cleaning up empty system directories..."
 find .config .local/share .local/state -type d -empty -delete 2>/dev/null
 
