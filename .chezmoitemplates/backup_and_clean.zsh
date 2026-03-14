@@ -26,9 +26,9 @@ Desktop
 $backup_dir
 .chezmoiscripts
 .config
-{{- if true -}}
+{{ if true -}}
 .config/mise
-{{- end -}}
+{{- end }}
 .local
 .local/share
 .local/state
@@ -41,16 +41,17 @@ local forced="
 .asdfrc
 .cargo
 .gem
-{{- if false -}}
+{{ if false -}}
 .local/share/mise
 .local/state/mise
-{{- end -}}
+{{- end }}
 .local/state/gh
 .local/state/last_update_check
 .local/share/man
 .local/share/nvim
 .local/state/nvim
 .node_modules
+.npm
 .pkgx
 .rustup
 .rbenv
@@ -138,8 +139,8 @@ done
 
 echo
 _print_danger "The above files and directories will be overwritten!"
-_print_danger "Choose ${BOLD}NO${RESET} to skip this step if you no longer"
-_print_danger "need them."
+_print_danger "Choose ${BOLD}Yes${RESET} to backup before overwriting. Or choose ${BOLD}NO${RESET}"
+_print_danger "to skip this step if you no longer need them."
 echo
 _prompt -p "Backup now? [Y|n] " -d "Y" response
 if [[ $response =~ ^(y|yes|Y) ]]; then
