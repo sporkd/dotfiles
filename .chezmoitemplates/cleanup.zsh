@@ -29,6 +29,7 @@ $backup_dir
 .local
 .local/share
 .local/state
+.local/state/zsh/history
 .ssh
 "
 
@@ -56,7 +57,9 @@ local forced="
 .viminfo
 .vscode
 .zlogin
+.zshenv
 .zshrc
+.zstyles
 Brewfile.lock.json
 Gemfile.lock
 "
@@ -160,9 +163,9 @@ _print_danger "to skip this step if you no longer need them."
 echo
 _prompt -p "Backup now? [Y|n] " -d "Y" response
 if [[ $response =~ ^(y|yes|Y) ]]; then
-  echo
-  _print_running "Backing up shell aliases"
-  alias -L > "$HOME/aliases.bak" 2>&1
+  # echo
+  # _print_running "Backing up shell aliases"
+  # alias -L > "$HOME/aliases.bak" 2>&1
 
   echo
   _print_info "📦 Creating archive: $backup_file"
@@ -189,8 +192,6 @@ if [[ $response =~ ^(y|yes|Y) ]]; then
   _print_notice "You can restore anytime by running"
   _print_cmd "cd ~"
   _print_cmd "tar xzvf $backup_file"
-  echo
-  _prompt -c -p "Got it!"
 else
   _print_skipping "backup"
 fi
@@ -198,16 +199,22 @@ fi
 {{ template "rvm_implode.zsh" }}
 
 echo
-_print_info "Cleaning up home directory..."
-for item in "${verified_list[@]}"; do
-  _print_running "rm -rf $item"
-  rm -rf "$item"
-done
+_prompt -p "Confirm removing ${#verified_list} items [Y|n] " -d "Y" response
+if [[ $response =~ ^(y|yes|Y) ]]; then
+  echo
+  for item in "${verified_list[@]}"; do
+    _print_running "rm -rf $item"
+    rm -rf "$item"
+  done
 
-# Final Sweep
-echo
-_print_info "Cleaning up empty system directories..."
-find .config .local/share .local/state -type d -empty -delete 2>/dev/null
+  echo
+  _print_info "Cleaning up empty dirs..."
+  find .config .local/share .local/state -type d -empty -delete 2>/dev/null
+else
+  _print_skipping "remove"
+  cd -
+  exit 0
+fi
 
 cd -
 
