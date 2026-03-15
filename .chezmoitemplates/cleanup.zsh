@@ -28,8 +28,8 @@ $backup_dir
 .chezmoiscripts
 .local
 .local/share
+.local/share/zsh/zsh_history
 .local/state
-.local/state/zsh/history
 .ssh
 "
 

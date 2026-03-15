@@ -2,48 +2,56 @@
 fpath=($ZDOTDIR/functions $fpath)
 autoload -Uz $ZDOTDIR/functions/*(.:t)
 
-# Core exports
-export SHELL="/bin/zsh"
-export EDITOR="nvim"
-export VISUAL="code --wait"
-export GIT_EDITOR="{{ .editor }}"
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+# Set Zsh options related to globbing.
+setopt extended_glob         # Use more awesome globbing features.
+setopt NO_rm_star_silent     # Ask for confirmation for `rm *' or `rm path/*'
+
+# Set general Zsh options.
+setopt combining_chars       # Combine 0-len chars with the base character (eg: accents).
+setopt interactive_comments  # Enable comments in interactive shell.
+setopt rc_quotes             # Allow 'Hitchhikers''s Guide' instead of 'Hitchhikers'\''s Guide'.
+setopt NO_mail_warning       # Don't print a warning message if a mail file has been accessed.
+setopt NO_beep               # Don't beep on error in line editor.
+
+# Set Zsh options related to job control.
+setopt auto_resume           # Attempt to resume existing job before creating a new process.
+setopt long_list_jobs        # List jobs in the long format by default.
+setopt notify                # Report status of background jobs immediately.
+setopt NO_bg_nice            # Don't run all background jobs at a lower priority.
+setopt NO_check_jobs         # Don't report on jobs when shell exit.
+setopt NO_hup                # Don't kill jobs on shell exit.
+
+# More Options
+setopt correct
+setopt ignore_eof
+setopt complete_in_word
+
+# History
+# HISTFILE="$XDG_DATA_HOME/zsh/zsh_history"
+# SAVEHIST=100000
+# HISTSIZE=20000
+setopt NO_hist_ignore_all_dups    # Delete an old recorded event if a new event is a duplicate.
+setopt hist_save_NO_DUPS          # deduplicate when writing to disk
+
+# Less options.
+# Add -X to disable mouse-wheel scrolling
+if [[ -z "$LESS" ]]; then
+  export LESS='-g -i -M -R -S -w -z-4'
+fi
+
+# Set Less input preprocessor
+# Try both `lesspipe` and `lesspipe.sh` as either might exist on a system.
+if [[ -z "$LESSOPEN" ]] && (( $#commands[(i)lesspipe(|.sh)] )); then
+  export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
+fi
 
 # Tool exports
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!doc/*"'
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
-{{ if eq .editor "nvim" }}
-export MANPAGER="nvim +Man!"  # use nvim for man
-{{ end }}
-{{ if eq .chezmoi.os "darwin" }}
-export SDKROOT="$(xcrun --show-sdk-path)"
-{{ end }}
 
-SHELL_SESSIONS_DISABLE=1
-
-# History
-HISTFILE="$XDG_STATE_HOME/zsh/history"
-HISTSIZE=100000
-SAVEHIST=100000
-setopt SHARE_HISTORY
-setopt EXTENDED_HISTORY
-# setopt INC_APPEND_HISTORY   # Not needed with SHARE_HISTORY
-# setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_DUPS      # don't store consecutive duplicates in memory
-setopt HIST_SAVE_NO_DUPS     # deduplicate when writing to disk
-setopt HIST_IGNORE_SPACE
-setopt HIST_REDUCE_BLANKS
-setopt HIST_VERIFY
-
-# Options
-setopt NO_LIST_BEEP
-setopt CORRECT
-setopt IGNORE_EOF
-setopt COMPLETE_IN_WORD
 
 # Zstyles
-[[ ! -f $ZDOTDIR/.zstyles ]] || source $ZDOTDIR/.zstyles
+[[ ! -f $ZDOTDIR/zstyles ]] || source $ZDOTDIR/zstyles
 
 # Homebrew (may extend fpath, so before plugin manager)
 if (( $+commands[brew] )); then
@@ -53,7 +61,7 @@ fi
 # Plugins (Antidote)
 if [[ -f $HOME/.antidote/antidote.zsh ]]; then
   source $HOME/.antidote/antidote.zsh
-  antidote load
+  antidote load # ${ZDOTDIR:-$HOME}/.zsh_plugins.txt
 fi
 
 # Mise

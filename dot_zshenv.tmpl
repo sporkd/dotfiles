@@ -1,0 +1,35 @@
+#!/usr/bin/env zsh
+
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
+export XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
+export ZDOTDIR=${ZDOTDIR:-$XDG_CONFIG_HOME/zsh}
+
+# mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_DATA_HOME $XDG_STATE_HOME
+
+export EDITOR="{{ .editor }}"
+export VISUAL="{{ .visual }} --wait"
+export GIT_EDITOR="{{ .editor }}"
+export PAGER="less"
+
+export LANG=${LANG:-en_US.UTF-8}
+export LC_ALL=${LC_ALL:-en_US.UTF-8}
+
+{{ if eq .chezmoi.os "darwin" }}
+export SDKROOT="$(xcrun --show-sdk-path)"
+export BROWSER=${BROWSER:-open}
+{{ end }}
+
+{{ if eq .editor "nvim" }}
+export MANPAGER="nvim +Man!"  # use nvim for man
+{{ end }}
+
+typeset -gU cdpath fpath mailpath path
+
+path=(
+  $HOME/bin(N)
+  $HOME/.local/bin(N)
+  /usr/local/bin(N)
+  $path
+)

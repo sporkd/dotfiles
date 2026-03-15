@@ -68,6 +68,7 @@ brew bundle --file="$HOME/Brewfile"
 echo
 _print_info "cleaning up..."
 brew autoremove
+brew bundle cleanup --force --file="$HOME/Brewfile"
 
 echo
 keep_in_dock "Figma"

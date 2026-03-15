@@ -1,0 +1,11 @@
+#!/bin/zsh
+#
+# zstyle settings for plugins
+
+zstyle ':antidote:bundle' file ${ZDOTDIR:-~}/zplugins
+zstyle ':antidote:bundle' use-friendly-names 'yes'
+
+# Available completion styles: gremlin, ohmy, prez, zshzoo
+# To see all available completion styles, run:
+#   compstyle -l
+zstyle ':plugin:ez-compinit' 'compstyle' 'zshzoo'
