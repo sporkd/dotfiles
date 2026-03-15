@@ -2,7 +2,7 @@
 #MISE description="Clean (and backup) dotfiles for reinstall"
 #MISE env={RUN_AS_MISE=true}
 
-{{ template "printers.zsh" }}
-{{ template "prompt.zsh" }}
+{{ template "_printers.zsh" }}
+{{ template "_prompt.zsh" }}
 
 {{ template "cleanup.zsh" . }}
