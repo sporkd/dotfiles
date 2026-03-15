@@ -12,10 +12,13 @@ set -euo pipefail
 
 {{ template "rvm_implode.zsh" }}
 
-# Copy .zsh_history to custom HISTFILE
-if [[ -f "{{ .chezmoi.homeDir }}/.zsh_history" && ! -f "{{ .chezmoi.homeDir }}/.zsh_history_extended" ]]; then
-  _print_running "cp .zsh_history to .zsh_history_extended"
-  cp "{{ .chezmoi.homeDir }}/.zsh_history" "{{ .chezmoi.homeDir }}/.zsh_history_extended"
+# Copy .zsh_history to ~/.local/share/zsh
+ZSH_STATE_DIR="{{ .chezmoi.homeDir }}/.local/state/zsh"
+[[ -d "$ZSH_STATE_DIR" ]] || mkdir -p "$ZSH_STATE_DIR"
+if [[ -f "{{ .chezmoi.homeDir }}/.zsh_history" && ! -f "$ZSH_STATE_DIR/history" ]]; then
+  echo
+  _print_running "cp ~/.zsh_history to ~/.local/state/zsh/history"
+  cp "{{ .chezmoi.homeDir }}/.zsh_history" "$ZSH_STATE_DIR/history"
 fi
 
 # Kitty
