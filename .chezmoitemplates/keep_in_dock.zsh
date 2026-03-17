@@ -14,4 +14,3 @@ function keep_in_dock() {
     exit 1
   fi
 }
-

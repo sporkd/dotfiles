@@ -11,6 +11,7 @@
   description = "Uninstall Homebrew"
   run = """
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+  rm -rf {{ .homebrew_prefix }}
   """
 
 [tasks.dotfiles-unmise]

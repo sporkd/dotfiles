@@ -6,6 +6,10 @@
 
 _print_running_script "$0"
 
+set -euo pipefail
+
+## Brewfile: {{ include "Brewfile.tmpl" | sha256sum }}
+
 # Zsh Best Practice: Use a specific path for brew if possible,
 # but falling back to 'brew' in PATH is more portable.
 local BREW_PATH="{{ .homebrew_prefix }}/bin/brew"
