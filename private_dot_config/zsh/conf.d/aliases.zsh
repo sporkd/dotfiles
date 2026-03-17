@@ -8,12 +8,13 @@ if (( $+commands[nvim] )); then
 fi
 
 # lsd
-# if (( $+commands[lsd] )); then
-#   alias ls="lsd -1"
-#   alias ll="lsd -1"
-#   alias la="lsd -la"
-#   alias lh="lsd -1ad .*"  # list only hidden files
-# fi
+if (( $+commands[lsd] )); then
+  alias ls="lsd -g"
+  alias ll="lsd -lg"
+  alias la="lsd -ag"
+  alias lt="lsd -g --tree"
+  alias lh="lsd -dg .*"  # list only hidden files
+fi
 
 # other
 alias diff="diff --color=always --suppress-common-lines"

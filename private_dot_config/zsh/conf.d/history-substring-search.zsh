@@ -1,7 +1,7 @@
 (( $+functions[history-substring-search-up] )) || return 1
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+# bindkey '^[[A' history-substring-search-up
+# bindkey '^[[B' history-substring-search-down
 
 # Emacs
 # bindkey -M emacs '^P' history-substring-search-up
