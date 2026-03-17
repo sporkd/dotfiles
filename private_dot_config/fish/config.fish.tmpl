@@ -1,61 +1,119 @@
-#! /usr/bin/env fish
+# ~/.config/fish/config.fish
 
-# secrets
-# source ~/.config/fish/secrets.fish
+# =============================================================================
+# XDG Base Directories
+# =============================================================================
+
+set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
+set -q XDG_CACHE_HOME;  or set -gx XDG_CACHE_HOME  $HOME/.cache
+set -q XDG_DATA_HOME;   or set -gx XDG_DATA_HOME   $HOME/.local/share
+set -q XDG_STATE_HOME;  or set -gx XDG_STATE_HOME  $HOME/.local/state
+
+# =============================================================================
+# Core Exports
+# =============================================================================
+
+set -gx EDITOR   "{{ .editor }}"
+set -gx VISUAL   "{{ .visual }} --wait"
+set -gx GIT_EDITOR "{{ .editor }}"
+set -gx PAGER    less
+
+set -q LANG;   or set -gx LANG   en_US.UTF-8
+set -q LC_ALL; or set -gx LC_ALL en_US.UTF-8
+
+{{ if eq .chezmoi.os "darwin" }}
+set -gx SDKROOT (xcrun --show-sdk-path)
+set -q BROWSER; or set -gx BROWSER open
+{{ end }}
+
+{{ if eq .editor "nvim" }}
+# Use nvim as man pager
+set -gx MANPAGER "nvim +Man!"
+{{ end }}
+
+# =============================================================================
+# PATH
+# =============================================================================
+# fish_add_path is idempotent and handles deduplication natively —
+# no need for the zsh `typeset -gU path` trick.
+
+fish_add_path $HOME/bin
+fish_add_path $HOME/.local/bin
+fish_add_path /usr/local/bin
+
+# =============================================================================
+# Interactive shell only
+# =============================================================================
+# Everything below only applies to interactive sessions. Env vars above this
+# line (XDG, EDITOR, PATH, etc.) remain available to all child processes.
 
 if status --is-interactive
-  # allow git to prompt for passphrase (when expires)
-  # export GPG_TTY=$(tty)
 
-  # no need for a greeting
-  set fish_greeting
+    # =========================================================================
+    # Fish options
+    # =========================================================================
 
-  # source variables
-  source ~/.config/fish/variables.fish
+    # Disable the greeting message
+    set -g fish_greeting ""
 
-  # source git abbreviations
-  source ~/.config/fish/abbr.fish
+    # =========================================================================
+    # GPG
+    # =========================================================================
+    # Tell GPG which TTY to use for passphrase prompts. Without this, pinentry
+    # can fail silently when a key expires in an interactive session.
 
-  # kitty completions
-  # kitty + complete setup fish | source
+    set -gx GPG_TTY (tty)
 
-  set -x TIME_STYLE long-iso
+    # =========================================================================
+    # LESS
+    # =========================================================================
 
-  set -x MANPAGER "nvim +Man!"
+    # Add -X to disable mouse-wheel scrolling
+    if not set -q LESS
+        set -gx LESS '-g -i -M -R -S -w -z-4'
+    end
 
-  # https://www.pgcli.com/pager
-  set -x LESS "-XFR"
+    # lesspipe / lesspipe.sh input preprocessor
+    if not set -q LESSOPEN
+        if command -q lesspipe
+            set -gx LESSOPEN "| /usr/bin/env lesspipe %s 2>&-"
+        else if command -q lesspipe.sh
+            set -gx LESSOPEN "| /usr/bin/env lesspipe.sh %s 2>&-"
+        end
+    end
 
-  set -x RIPGREP_CONFIG_PATH "$HOME/.config/ripgrep/ripgreprc"
-  set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --glob "!doc/*"'
+    # =========================================================================
+    # Tool configuration
+    # =========================================================================
 
-  set -gx GOPATH $HOME/go
-  set -gx fish_user_paths $GOPATH/bin $fish_user_paths
+    # fzf: the zsh fzf key-binding and completion setup is no longer needed
+    # fish has its own fzf integration (e.g. via `fzf --fish` or the fisher plugin).
+    # FZF_DEFAULT_COMMAND is still useful if you use fzf directly or via a plugin.
+    set -gx FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --glob "!doc/*"'
 
-  {{ if eq .chezmoi.os "darwin" }}
+    set -gx RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
 
-    fish_add_path "/usr/local/bin"
-    fish_add_path "$HOME/bin"
-    fish_add_path "$HOME/.local/bin"
-    fish_add_path "$HOME/.cargo/bin"
+    # =========================================================================
+    # Homebrew
+    # =========================================================================
+    # Must come before mise so brew-managed tools are on PATH first.
 
-    eval ({{ .homebrew_prefix }}/bin/brew shellenv)
+    if command -q brew
+        eval ({{ .homebrew_prefix }}/bin/brew shellenv)
+    end
 
-  {{ else if eq .chezmoi.os "linux" }}
+    # =========================================================================
+    # Mise
+    # =========================================================================
 
-    fish_add_path $HOME/.local/bin
-    fish_add_path $HOME/.gem/bin
-    fish_add_path $HOME/bin
-    fish_add_path $HOME/.node_modules/bin \
+    if command -q mise
+        mise activate fish | source
+    end
 
-    # globally install node modules in $HOME directory
-    set -x NPM_CONFIG_PREFIX $HOME/.node_modules
-    set -x GEM_HOME $HOME/.gem/
+    # =========================================================================
+    # conf.d — sourced automatically by fish
+    # =========================================================================
+    # Fish automatically sources every *.fish file in ~/.config/fish/conf.d/,
+    # .fish extensions instead of .zsh.
 
-  {{ end }}
-
-  # TODO: pkgx
-
-  # zoxide init fish | source
-  starship init fish | source
 end
