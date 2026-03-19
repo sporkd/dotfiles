@@ -1,0 +1,25 @@
+#! /usr/bin/env zsh
+
+{{ template "_printers.zsh" }}
+
+_print_running_script "$0"
+
+set -euo pipefail
+
+## fish_plugins: {{ include "private_dot_config/fish/fish_plugins" | sha256sum }}
+
+if ! command -v fish >/dev/null 2>&1; then
+  _print_error "fish shell not found"
+  exit 1
+fi
+
+echo
+_print_running "fisher update"
+fish -c "fisher update"
+
+echo
+_print_info "Updating fish completions"
+fish -c "fish_update_completions"
+
+echo
+_print_ok "Success! 🐟"
