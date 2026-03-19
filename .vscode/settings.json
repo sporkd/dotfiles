@@ -1,0 +1,31 @@
+{
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+
+"files.associations": {
+    // Folders (lowest priority)
+    "**/zsh/**": "shellscript",
+    "**/fish/**": "fish",
+    "*config*": "properties",
+
+    // Chezmoi Prefixes
+    "dot_*": "shellscript",
+    "executable_*": "shellscript",
+    "run_*": "shellscript",
+
+    // Template Extensions
+    "*.sh.tmpl": "shellscript",
+    "*.zsh.tmpl": "shellscript",
+    "*.fish.tmpl": "fish",
+    "*.toml.tmpl": "toml",
+    "*.yaml.tmpl": "yaml",
+    "*.json.tmpl": "json",
+    "*.conf.tmpl": "properties",
+    "*.theme": "properties",
+
+    // Exact Filenames (highest priority)
+    ".*ignore": "ignore",
+    "*gitconfig": "gitconfig"
+  }
+}
