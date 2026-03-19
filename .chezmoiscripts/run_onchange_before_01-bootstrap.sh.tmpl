@@ -15,7 +15,7 @@ set -euo pipefail
 # Copy .zsh_history to ~/.local/share/zsh
 XDG_DATA_HOME="{{ .chezmoi.homeDir }}/.local/share"
 [[ -d "$XDG_DATA_HOME" ]] || mkdir -p "$XDG_DATA_HOME"
-if [[ -f "{{ .chezmoi.homeDir }}/.zsh_history" && ! -f "$XDG_DATA_HOME/zsh_history" ]]; then
+if [[ -f "{{ .chezmoi.homeDir }}/.zsh_history" && ! -f "$XDG_DATA_HOME/zsh/zsh_history" ]]; then
   echo
   _print_running "cp ~/.zsh_history to ~/.local/share/zsh/history"
   cp "{{ .chezmoi.homeDir }}/.zsh_history" "$XDG_DATA_HOME/zsh_history"
