@@ -8,4 +8,4 @@ if command -q starship
     starship init fish | source
 end
 
-fish_set_cursor blink_bar
+fish_set_cursor blink-bar

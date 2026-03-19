@@ -23,3 +23,11 @@ alias icat='kitty +kitten icat'
 alias uuid="uuidgen | tr -d '\\n' | tr '[:upper:]' '[:lower:]' | pbcopy; pbpaste; echo"
 alias weather='curl wttr.in'
 alias genpass='dd if=/dev/urandom bs=1 count=18 2>/dev/null | base64 | rev | cut -b 2- | rev'
+
+# quick nav
+alias cm="cd {{ .chezmoi.sourceDir }}"
+alias cms="cd {{ .chezmoi.sourceDir }}/.chezmoiscripts"
+alias cmc="cd {{ .chezmoi.sourceDir }}/private_dot_config"
+alias cmf="cd {{ .chezmoi.sourceDir }}/private_dot_config/fish"
+alias cmz="cd {{ .chezmoi.sourceDir }}/private_dot_config/zsh"
+alias cml="cd {{ .chezmoi.sourceDir }}/dot_local"

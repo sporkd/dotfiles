@@ -45,6 +45,7 @@ local forced="
 .local/share/man
 .local/share/nvim
 .local/state/nvim
+.local/state/zsh
 .node_modules
 .npm
 .pkgx
@@ -63,6 +64,11 @@ local forced="
 .zstyles
 Brewfile.lock.json
 Gemfile.lock
+"
+
+# TODO: Restore from backup
+local restore="
+.local/state/zsh/zsh_history
 "
 
 if [[ "${RUN_AS_MISE:-false}" == "true" ]]; then
@@ -200,7 +206,7 @@ fi
 {{ template "rvm_implode.zsh" }}
 
 echo
-_prompt -p "Confirm removing ${#verified_list} items [Y|n] " -d "Y" response
+_prompt -p "Confirm removing ${#verified_list} items? [Y|n] " -d "Y" response
 if [[ $response =~ ^(y|yes|Y) ]]; then
   echo
   for item in "${verified_list[@]}"; do

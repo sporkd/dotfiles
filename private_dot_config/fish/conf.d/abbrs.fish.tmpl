@@ -13,8 +13,12 @@ abbr -a -- h history
 abbr -a -- l 'ls -UF'
 
 # quick nav
-abbr -a -- fdot 'cd $__fish_config_dir'
-abbr -a -- zdot 'cd $ZDOTDIR'
+abbr -a -- cm 'cd {{ .chezmoi.sourceDir }}'
+abbr -a -- cms 'cd {{ .chezmoi.sourceDir }}/.chezmoiscripts'
+abbr -a -- cmc 'cd {{ .chezmoi.sourceDir }}/private_dot_config'
+abbr -a -- cmf 'cd {{ .chezmoi.sourceDir }}/private_dot_config/fish'
+abbr -a -- cmz 'cd {{ .chezmoi.sourceDir }}/private_dot_config/zsh'
+abbr -a -- cml 'cd {{ .chezmoi.sourceDir }}/dot_local'
 
 # date/time
 abbr -a -- ds 'date +%Y-%m-%d'

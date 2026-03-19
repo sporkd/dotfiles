@@ -16,7 +16,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.fontFamily": "MesloLGS NF Regular, Menlo, Monaco, monospace",
   "editor.fontSize": 14,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.formatOnType": false,
   "editor.renderControlCharacters": false,
   "editor.renderWhitespace": "all",
@@ -43,8 +43,6 @@
   },
   // Language Specific Settings
   "[dart]": {
-    "editor.formatOnSave": true,
-    "editor.formatOnType": true,
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "editor.suggestSelection": "first",
     "editor.tabCompletion": "onlySnippets",
@@ -52,18 +50,16 @@
   },
   "[fish]": {
     "editor.defaultFormatter": "bmalehorn.vscode-fish",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 4,
+    "editor.tabSize": 4
   },
   "[javascript]": {
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
     },
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features",
@@ -84,8 +80,7 @@
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },
   "[toml]": {
-    "editor.defaultFormatter": "tamasfe.even-better-toml",
-    "editor.formatOnSave": true
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml",

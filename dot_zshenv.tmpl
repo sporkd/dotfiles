@@ -6,15 +6,13 @@ export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 export XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
 export ZDOTDIR=${ZDOTDIR:-$XDG_CONFIG_HOME/zsh}
 
-# mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_DATA_HOME $XDG_STATE_HOME
-
 export EDITOR="{{ .editor }}"
 export VISUAL="{{ .visual }} --wait"
 export GIT_EDITOR="{{ .editor }}"
 export PAGER="less"
 
 export LANG=${LANG:-en_US.UTF-8}
-export LC_ALL=${LC_ALL:-en_US.UTF-8}
+export GPG_TTY=(tty)
 
 {{ if eq .chezmoi.os "darwin" }}
 export SDKROOT="$(xcrun --show-sdk-path)"

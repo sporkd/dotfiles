@@ -1,6 +1,11 @@
 # Functions
-fpath=($ZDOTDIR/functions $fpath)
+fpath=(
+  $ZDOTDIR/functions
+  $XDG_DATA_HOME/zsh/site-functions
+  $fpath
+)
 autoload -Uz $ZDOTDIR/functions/*(.:t)
+autoload -Uz $XDG_DATA_HOME/zsh/site-functions/*(.:t)
 
 # Set Zsh options related to globbing.
 setopt extended_glob         # Use more awesome globbing features.
@@ -47,10 +52,11 @@ if [[ -z "$LESSOPEN" ]] && (( $#commands[(i)lesspipe(|.sh)] )); then
   export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
 fi
 
+export PAGER="less -RiFX"
+
 # Tool exports
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!doc/*"'
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
-
 
 # Zstyles
 [[ ! -f $ZDOTDIR/zstyles ]] || source $ZDOTDIR/zstyles

@@ -12,6 +12,10 @@ set -gx EDITOR   "{{ .editor }}"
 set -gx VISUAL   "{{ .visual }} --wait"
 set -gx GIT_EDITOR "{{ .editor }}"
 
+# Language and GPG
+set -gx LANG en_US.UTF-8
+set -gx GPG_TTY (tty)
+
 # Pager & Less
 if not set -q LESS
     # Add -X to disable mouse-wheel scrolling
@@ -30,20 +34,15 @@ end
 # -R: colored output, -i: case-insensitive search, -F: quit if one screen, -X: don't clear screen
 set -gx PAGER "less -RiFX"
 
-# Language and GPG
-set -gx LANG en_US.UTF-8
-set -gx GPG_TTY (tty)
-
 {{ if eq .editor "nvim" }}
 if command -q nvim
-  set -gx MANPAGER "nvim +Man!"
+    set -gx MANPAGER "nvim +Man!"
 else
-  set -gx MANPAGER "vim -M +MANPAGER -"
+    set -gx MANPAGER "vim -M +MANPAGER -"
 end
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }}
-set -gx SHELL_SESSIONS_DISABLE 1
 set -gx SDKROOT (xcrun --show-sdk-path)
 set -q BROWSER || set -gx BROWSER open
 {{ end }}
