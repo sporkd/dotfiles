@@ -57,6 +57,7 @@ local forced="
 .viminfo
 .vscode
 .zlogin
+.zsh_history
 .zshenv
 .zshrc
 .zstyles

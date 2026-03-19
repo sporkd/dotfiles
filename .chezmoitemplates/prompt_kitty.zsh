@@ -1,3 +1,4 @@
+echo
 _prompt -p "Open a kitty terminal now? [Y|n] " -d "Y" resp
 if [[ $resp =~ ^(y|yes|Y) ]]; then
   {{ if eq .chezmoi.os "darwin" }}

@@ -1,64 +1,52 @@
 function _prompt() {
-  usage() { echo "USAGE: prompt [-p <prompt_text>] [-d <default_value>] [-r <match_regex>] [-e <match_print_error>] [-c <continue_key>] result_var" 1>&2; exit 1; }
-  local OPTIND
-  local prompt_text= default_value= match_regex= match_print_error="is not valid" continue_key=
+  local usage="USAGE: prompt [-p <prompt_text>] [-d <default_value>] [-r <match_regex>] [-e <match_print_error>] [-c] result_var"
+  local OPTIND prompt_text= default_value= match_regex= match_print_error="is not valid" continue_key=
 
   while getopts "h?cd:e:r:p:" opt; do
     case ${opt} in
-    c)  continue_key=${OPTARG}
-      continue_key=true
-      ;;
-    d)  default_value=${OPTARG}
-      ;;
-    e)  match_print_error=${OPTARG}
-      ;;
-    r)  match_regex=${OPTARG}
-      ;;
-    p)  prompt_text=${OPTARG}
-      ;;
-    *)
-      usage
-      ;;
+      c) continue_key=true ;;
+      d) default_value=${OPTARG} ;;
+      e) match_print_error=${OPTARG} ;;
+      r) match_regex=${OPTARG} ;;
+      p) prompt_text=${OPTARG} ;;
+      *) echo "$usage" >&2; return 1 ;;
     esac
   done
   shift $((OPTIND-1))
 
   local _result_var="$1"
-  local _value=
+  local _value=""
 
-  if [ $continue_key ]; then
-    if [ -n "$prompt_text" ]; then
-      echo -e "${FG_CYAN}[...]${RESET} $prompt_text (press any key to continue)"
-    else
-      echo -e "${FG_CYAN}[...]${RESET} (press any key to continue)"
-    fi
-    read -k1 -s
+  # Flush the buffer
+  while read -t 0 && read -k 1; do; done
+
+  if [[ -n "$continue_key" ]]; then
+    local msg="${prompt_text:-"continue"}"
+    echo -e "${FG_CYAN}[...]${RESET} $msg (press any key to continue)"
+    read -k 1 -s
     return 0
   fi
 
-  while :
-  do
-    if [ -n "$prompt_text" ]; then
-      vared -p "$(echo -e "${FG_CYAN}[?]${RESET} "$prompt_text" ")" -c _value
-    else
-      vared -p "$(echo -e "${FG_CYAN}[?]${RESET} ")" -c _value
-    fi
+  while :; do
+    vared -p "$(echo -e "${FG_CYAN}[?]${RESET} ${prompt_text}") " -c _value
+
     _value="${_value:-$default_value}"
 
-    if [ -z "$_value" ]; then
-      _print_error "Cannot be blank"
+    if [[ -z "$_value" ]]; then
+      echo -e "${FG_RED}[!]${RESET} Error: Cannot be blank" >&2
       continue
     fi
 
-    if [ -n "$match_regex" ]; then
-      if ! [[ "$_value" =~ $match_regex ]]; then
-        _print_error "[$_value] $match_print_error"
+    if [[ -n "$match_regex" ]]; then
+      if [[ ! "$_value" =~ $match_regex ]]; then
+        echo -e "${FG_RED}[!]${RESET} Error: [$_value] $match_print_error" >&2
+        _value="" # Clear value for next attempt
         continue
       fi
     fi
 
-    if [ -n "$_result_var" ]; then
-      eval $_result_var="'$_value'"
+    if [[ -n "$_result_var" ]]; then
+      typeset -g "$_result_var=$_value"
     fi
     return 0
   done
