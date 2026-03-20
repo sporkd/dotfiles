@@ -35,9 +35,9 @@
   "terminal.integrated.defaultProfile.osx": "fish",
   "terminal.integrated.fontFamily": "MesloLGS NF",
   "terminal.integrated.fontSize": 13,
-  "workbench.colorTheme": "One Dark Pro",
   "workbench.iconTheme": "material-icon-theme",
-  "workbench.preferredDarkColorTheme": "One Dark Pro",
+  "workbench.colorTheme": "Snazzy Plus",
+  "workbench.preferredDarkColorTheme": "Snazzy Plus",
   "rubyLsp.rubyVersionManager": {
     "identifier": "mise"
   },

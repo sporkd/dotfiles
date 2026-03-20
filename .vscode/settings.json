@@ -13,6 +13,7 @@
     "dot_*": "shellscript",
     "executable_*": "shellscript",
     "run_*": "shellscript",
+    "symlink_*": "tmpl",
 
     // Template Extensions
     "*.sh.tmpl": "shellscript",
@@ -26,6 +27,8 @@
 
     // Exact Filenames (highest priority)
     ".*ignore": "ignore",
-    "*gitconfig": "gitconfig"
-  }
+    "*gitconfig*": "gitconfig",
+    "Brewfile*": "ruby"
+  },
+  "workbench.colorTheme": "Snazzy Plus"
 }
