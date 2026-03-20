@@ -73,6 +73,18 @@
 {{-   $vim_mode = promptBool "Use VIM mode in vscode" $vim_mode -}}
 {{- end -}}
 
+{{- /* kitty_font_size */ -}}
+{{- $choices := list "10.0" "11.0" "12.0" "13.0" "14.0" "custom" -}}
+{{- $kitty_font_size := "12.0" -}}
+{{- if hasKey . "kitty_font_size" -}}
+{{-   $kitty_font_size = .kitty_font_size -}}
+{{- else if $interactive -}}
+{{-   $kitty_font_size = promptChoice "Kitty terminal font size" $choices $kitty_font_size -}}
+{{-   if eq $kitty_font_size "custom" -}}
+{{-     $kitty_font_size = promptString "Custom size" -}}
+{{-   end -}}
+{{- end -}}
+
 {{- /* homebrew_prefix */ -}}
 {{- $homebrew_prefix := "" -}}
 {{- if eq .chezmoi.os "linux" -}}
@@ -93,5 +105,9 @@
   editor = "{{ $editor }}"
   visual = "{{ $visual }}"
   homebrew_prefix = "{{ $homebrew_prefix }}"
-  [data.vscode]
-    vim_mode = "{{ $vim_mode }}"
+
+[data.vscode]
+  vim_mode = "{{ $vim_mode }}"
+
+[data.kitty]
+  font_size = "{{ $kitty_font_size }}"
