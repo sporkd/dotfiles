@@ -6,7 +6,7 @@ ls() {
 
     if [[ -f "$current_dir/colors.yaml" ]]; then
       # group-dirs [none, first, last]
-      command lsd --group-dirs first --config-file "$current_dir" "$@"
+      command lsd --group-dirs first --config-file "$current_dir/config.yaml" "$@"
     else
       # Uses config_dir by default
       command lsd --group-dirs first "$@"
@@ -17,4 +17,3 @@ ls() {
     command ls "$@"
   fi
 }
-

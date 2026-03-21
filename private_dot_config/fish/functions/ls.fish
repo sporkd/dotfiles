@@ -5,7 +5,7 @@ function ls --description 'Call lsd or gls fallback'
 
         if test -f "$current_dir/colors.yaml"
             # group-dirs [none, first, last]
-            command lsd --group-dirs first --config-file "$current_dir" $argv
+            command lsd --group-dirs first --config-file "$current_dir/config.yaml" $argv
         else
             # Uses config_dir by default
             command lsd --group-dirs first $argv
