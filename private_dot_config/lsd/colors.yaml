@@ -1,40 +1,30 @@
----
-user: white                     # Default = 230
-group: bright_white             # Default = 187
+# Generated from vivid theme: snazzy
+user: 0;38;2;255;180;223
+group: 00
 permission:
-  read: dark_green              # Default = dark_green
-  write: dark_yellow            # Default = dark_yellow
-  exec: dark_red                # Default = dark_red
-  exec-sticky: 5                # Default = 5
-  no-access: 245                # Default = 245
-  octal: 6                      # Default = 6
-  acl: dark_cyan                # Default = dark_cyan
-  context: cyan                 # Default = cyan
-date:
-  hour-old: 40                  # Default = 40
-  day-old: 42                   # Default = 42
-  older: 36                     # Default = 36
+  read: 00
+  write: 00
+  exec: 1;38;2;255;92;87
+  no-access: 0
+file-type:
+  directory: 0;38;2;87;199;255
+  file:
+    exec: 1;38;2;255;92;87
+    non-exec: 0
+  symlink: 0;38;2;255;106;193
+  pipe: 0;38;2;0;0;0;48;2;87;199;255
+  socket: 0;38;2;0;0;0;48;2;255;106;193
+date: 0;38;2;255;180;223
 size:
-  none: 245                     # Default = 245
-  small: 229                    # Default = 229
-  medium: 216                   # Default = 216
-  large: 172                    # Default = 172
-inode:
-  valid: 13                     # Default = 13
-  invalid: 245                  # Default = 245
+  none: 00
+  small: 0;38;2;90;247;142
+  medium: 0;38;2;90;247;142
+  large: 00
+inode: 4;38;2;154;237;254
 links:
-  valid: 13                     # Default = 13
-  invalid: 245                  # Default = 245
-tree-edge: 245                  # Default = 245
-git-status:
-  default: 245                  # Default = 245
-  unmodified: 245               # Default = 245
-  ignored: 245                  # Default = 245
-  new-in-index: dark_green      # Default = dark_green
-  new-in-workdir: dark_green    # Default = dark_green
-  typechange: dark_yellow       # Default = dark_yellow
-  deleted: dark_red             # Default = dark_red
-  renamed: dark_green           # Default = dark_green
-  modified: dark_yellow         # Default = dark_yellow
-  conflicted: dark_red          # Default = dark_red
+  valid: 0;38;2;255;106;193
+  invalid: 0;38;2;0;0;0;48;2;255;92;87
+tree-edge: 0;38;2;87;199;255
+extension:
+  "1": "0;38;2;243;249;157"
 

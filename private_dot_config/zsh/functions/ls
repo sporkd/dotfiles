@@ -1,0 +1,20 @@
+# Call lsd or gls fallback
+ls() {
+  if (( $+commands[lsd] )); then
+    local config_dir="$XDG_CONFIG_HOME/lsd"
+    local current_dir="$config_dir/current"
+
+    if [[ -f "$current_dir/colors.yaml" ]]; then
+      # group-dirs [none, first, last]
+      command lsd --group-dirs first --config-file "$current_dir" "$@"
+    else
+      # Uses config_dir by default
+      command lsd --group-dirs first "$@"
+    fi
+  elif (( $+commands[gls] )); then
+    command gls --color=auto --group-directories-first "$@"
+  else
+    command ls "$@"
+  fi
+}
+

@@ -7,15 +7,6 @@ if (( $+commands[nvim] )); then
   alias tree='et'
 fi
 
-# lsd
-if (( $+commands[lsd] )); then
-  alias ls="lsd -g"
-  alias ll="lsd -lg"
-  alias la="lsd -ag"
-  alias lt="lsd -g --tree"
-  alias lh="lsd -dg .*"  # list only hidden files
-fi
-
 # other
 alias diff="diff --color=always --suppress-common-lines"
 alias ranger="VISUAL=$EDITOR ranger"

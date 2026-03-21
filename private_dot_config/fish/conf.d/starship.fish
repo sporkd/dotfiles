@@ -1,11 +1,19 @@
-# Starship
-if command -q starship
-    if test -f $XDG_CONFIG_HOME/hooks/starship.toml
-        # hook to override default ~/.config/starship.toml
-        set -gx STARSHIP_CONFIG $XDG_CONFIG_HOME/hooks/starship.toml
+# Starship Initialization
+if type -q starship
+    set -l config_dir "$XDG_CONFIG_HOME/starship"
+    set -l config_file "$config_dir/current.toml"
+
+    # Check for current.toml, fallback to default.toml if missing
+    if not test -f "$config_file"
+        set config_file "$config_dir/default.toml"
     end
-    set -gx STARSHIP_LOG error # silence timeout warnings
+
+    if test -f "$config_file"
+        set -gx STARSHIP_CONFIG "$config_file"
+    end
+
+    # Silence timeout warnings
+    set -gx STARSHIP_LOG error
+
     starship init fish | source
 end
-
-fish_set_cursor blink-bar
